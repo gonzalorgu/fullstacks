@@ -17,14 +17,10 @@ import { Reportes } from './features/admin/reportes/reportes';
 import { OverviewPage } from './features/admin/overview.page/overview.page';
 import { Pagos } from './features/admin/pagos/pagos';
 import { Carrito } from './features/carrito/carrito';
-import { Checkout } from './checkout/checkout/checkout';
-import { ConfectionsNv } from './features/confections/confections-nv/confections-nv';
-import { ConfectionsFS } from './features/confections/confections-f-s/confections-f-s';
-import { ConfectionsIV } from './features/confections/confections-iv/confections-iv';
-import { MaintenanceList } from './features/admin/maintenance/maintenance-list/maintenance-list';
-import { MaintenanceCreate } from './features/admin/maintenance/maintenance-create/maintenance-create';
+import { checkout } from './checkout/checkout/checkout';
+import { ShoppingPage } from './features/shopping/shopping.page/shopping.page';
+import { Ventas } from './features/admin/ventas/ventas';
 
-import { authGuard } from './guards/auth.guard'; // <-- tu guard funcional
 
 export const routes: Routes = [
   {
@@ -35,32 +31,28 @@ export const routes: Routes = [
       { path: 'home', component: HomePage },
       { path: 'catalogo', component: CatalogPage },
       { path: 'vestido/:id', component: DressDetail },
-      { path: 'mis-alquiler', component: RentalsPage, canActivate: [authGuard] },
-      { path: 'carrito', component: Carrito, canActivate: [authGuard] },
-      { path: 'perfil', component: ProfilePage, canActivate: [authGuard] },
-      { path: 'confeccion-nv', component: ConfectionsNv, canActivate: [authGuard] },
-      { path: 'confeccion-FS', component: ConfectionsFS, canActivate: [authGuard] },
-      { path: 'confeccion-IV', component: ConfectionsIV, canActivate: [authGuard] },
-      { path: 'checkout', component: Checkout, canActivate: [authGuard] },
-      { path: 'login', component: LoginPage, canActivate: [authGuard] }, // aplica tu redirección aquí
+      { path: 'mis-alquiler', component: RentalsPage },
+      { path: 'mis-compras', component: ShoppingPage },
+      { path: 'carrito', component: Carrito },
+      { path: 'perfil', component: ProfilePage },
+      { path: 'login', component: LoginPage },
       { path: 'registro', component: RegisterPage },
-      { path: 'recuperar', component: RecoverPage }
+      { path: 'recuperar', component: RecoverPage },
+      { path: 'checkout', component:checkout }
     ]
   },
   {
     path: 'admin',
     component: AdminShell,
-    canActivate: [authGuard], // sólo autenticados entran a admin
     children: [
       { path: '', redirectTo: 'inicio', pathMatch: 'full' },
       { path: 'inicio', component: OverviewPage },
       { path: 'ajustes', component: Ajustes },
       { path: 'vestidos', component: VestidosPage },
       { path: 'alquileres', component: Alquileres },
+      { path: 'ventas', component: Ventas },
       { path: 'pagos', component: Pagos },
       { path: 'usuarios', component: Usuarios },
-      { path: 'mantenimiento', component: MaintenanceList },
-      { path: 'mantenimiento/create', component: MaintenanceCreate },
       { path: 'reportes', component: Reportes }
     ]
   },
