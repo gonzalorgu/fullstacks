@@ -17,10 +17,14 @@ import { Reportes } from './features/admin/reportes/reportes';
 import { OverviewPage } from './features/admin/overview.page/overview.page';
 import { Pagos } from './features/admin/pagos/pagos';
 import { Carrito } from './features/carrito/carrito';
-import { checkout } from './checkout/checkout/checkout';
-import { ShoppingPage } from './features/shopping/shopping.page/shopping.page';
-import { Ventas } from './features/admin/ventas/ventas';
+import { Checkout } from './checkout/checkout/checkout';
+import { ConfectionsNv } from './features/confections/confections-nv/confections-nv';
+import { ConfectionsFS } from './features/confections/confections-f-s/confections-f-s';
+import { ConfectionsIV } from './features/confections/confections-iv/confections-iv';
+import { MaintenanceList } from './features/admin/maintenance/maintenance-list/maintenance-list';
+import { MaintenanceCreate } from './features/admin/maintenance/maintenance-create/maintenance-create';
 
+// Elimina el import y uso del authGuard
 
 export const routes: Routes = [
   {
@@ -32,27 +36,31 @@ export const routes: Routes = [
       { path: 'catalogo', component: CatalogPage },
       { path: 'vestido/:id', component: DressDetail },
       { path: 'mis-alquiler', component: RentalsPage },
-      { path: 'mis-compras', component: ShoppingPage },
       { path: 'carrito', component: Carrito },
       { path: 'perfil', component: ProfilePage },
+      { path: 'confeccion-nv', component: ConfectionsNv },
+      { path: 'confeccion-FS', component: ConfectionsFS },
+      { path: 'confeccion-IV', component: ConfectionsIV },
+      { path: 'checkout', component: Checkout },
       { path: 'login', component: LoginPage },
       { path: 'registro', component: RegisterPage },
-      { path: 'recuperar', component: RecoverPage },
-      { path: 'checkout', component:checkout }
+      { path: 'recuperar', component: RecoverPage }
     ]
   },
   {
     path: 'admin',
     component: AdminShell,
+    // sin guard, acceso abierto al módulo admin
     children: [
       { path: '', redirectTo: 'inicio', pathMatch: 'full' },
       { path: 'inicio', component: OverviewPage },
       { path: 'ajustes', component: Ajustes },
       { path: 'vestidos', component: VestidosPage },
       { path: 'alquileres', component: Alquileres },
-      { path: 'ventas', component: Ventas },
       { path: 'pagos', component: Pagos },
       { path: 'usuarios', component: Usuarios },
+      { path: 'mantenimiento', component: MaintenanceList },
+      { path: 'mantenimiento/create', component: MaintenanceCreate },
       { path: 'reportes', component: Reportes }
     ]
   },
