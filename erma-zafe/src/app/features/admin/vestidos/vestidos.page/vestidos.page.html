@@ -1,0 +1,18 @@
+<div class="vestidos-page">
+  <div class="page-header">
+    <h1>Gestión de Vestidos</h1>
+    <button (click)="abrirModalNuevo()" class="btn btn-primary">
+      + Nuevo Vestido
+    </button>
+  </div>
+
+  <div class="list-section">
+    <app-vestidos-list
+      [vestidos]="vestidos()"
+      [loading]="loading()"
+      (editVestido)="onEditVestido($event)"
+      (deleteVestido)="onDeleteVestido($event)"
+      (toggleDisponible)="onToggleDisponible($event)">
+    </app-vestidos-list>
+  </div>
+</div>

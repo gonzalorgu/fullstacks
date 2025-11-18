@@ -1,0 +1,90 @@
+<div class="pagos-form-container">
+  <h2>📝 Registrar Nuevo Pago</h2>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>Cliente:</label>
+      <select (change)="onClienteChange($event)" required>
+        <option value="0" selected disabled>Selecciona...</option>
+        @for (cliente of clientes(); track cliente.id) {
+          <option [value]="cliente.id">{{ cliente.name || cliente.email }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Alquiler:</label>
+      <select (change)="onAlquilerChange($event)" required>
+        <option value="" selected disabled>Selecciona...</option>
+        @for (alquiler of alquileres(); track alquiler.id) {
+          <option [value]="alquiler.id">{{ getAlquilerDisplay(alquiler) }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>Monto:</label>
+      <input type="number" [(ngModel)]="pago.amount" step="0.01" required placeholder="0.00">
+    </div>
+
+    <div class="form-group">
+      <label>Fecha:</label>
+      <input type="date" [(ngModel)]="pago.payment_date" required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>Método:</label>
+      <select [(ngModel)]="pago.payment_method" required>
+        <option value="efectivo">Efectivo</option>
+        <option value="yape">Yape</option>
+        <option value="plin">Plin</option>
+        <option value="transferencia">Transfer</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Estado:</label>
+      <select [(ngModel)]="pago.status" required>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Pagado">Pagado</option>
+        <option value="Abono">Abono</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Referencia:</label>
+    <input type="text" [(ngModel)]="pago.reference" placeholder="ALQ-001">
+  </div>
+
+  <div class="form-group compact">
+    <label>📸 Comprobante:</label>
+    <div class="file-upload-wrapper-compact">
+      <input
+        type="file"
+        accept="image/*"
+        (change)="onImagenSeleccionada($event)"
+        class="file-input"
+        id="receipt-file">
+      <label for="receipt-file" class="file-label-compact">
+        📁 Subir Imagen
+      </label>
+
+      @if (imagenPreview()) {
+        <div class="image-preview-compact">
+          <img [src]="imagenPreview()" alt="Comprobante">
+          <button type="button" (click)="eliminarImagen()" class="btn-remove-compact">✕</button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button (click)="onCancel()" class="btn-cancel">Cancelar</button>
+    <button (click)="onSubmit()" class="btn-success">Guardar</button>
+  </div>
+</div>

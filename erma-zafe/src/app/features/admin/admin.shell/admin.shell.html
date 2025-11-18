@@ -1,0 +1,120 @@
+@if (showChatDropdown() || showHelpDropdown() || showNotificationsDropdown() || showUserDropdown()) {
+  <div class="dropdown-overlay" (click)="closeAllDropdowns()"></div>
+}
+
+<header>
+  <div class="left">
+    <div class="menu-container">
+      <div class="menu" [class.menu-toggle]="menuOpen" (click)="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <a routerLink="/admin/inicio" class="brand-link">
+      <div class="brand">
+        <span class="name">Erma Zafe</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="right">
+    <div class="dropdown-container">
+      <button class="icons-header" (click)="toggleNotificationsDropdown()" aria-label="Notificaciones">
+        <img src="assets/icons/notification.svg" alt="notification">
+        @if (unreadNotifications() > 0) {
+          <span class="badge">{{ unreadNotifications() }}</span>
+        }
+      </button>
+
+      @if (showNotificationsDropdown()) {
+        <div class="dropdown notifications-dropdown">
+          <div class="dropdown-header">
+            <h3>Notificaciones</h3>
+            @if (unreadNotifications() > 0) {
+              <span class="count-badge">{{ unreadNotifications() }}</span>
+            }
+          </div>
+
+          @if (notifications().length > 0) {
+            @for (notif of notifications(); track notif.id) {
+              <div
+                class="dropdown-item notification"
+                [class.unread]="notif.unread"
+                (click)="markAsRead(notif.id)">
+                <img [src]="notif.icon" alt="Icono" class="dropdown-icon">
+                <div class="notification-content">
+                  <p class="notification-title">{{ notif.title }}</p>
+                  <p class="notification-text">{{ notif.message }}</p>
+                  <span class="time">{{ notif.time }}</span>
+                </div>
+              </div>
+            }
+          } @else {
+            <div class="dropdown-item notification empty">
+              <div class="notification-content">
+                <p class="notification-title">✅ Sin notificaciones</p>
+                <p class="notification-text">No hay alquileres retrasados</p>
+              </div>
+            </div>
+          }
+
+          <div class="dropdown-footer">
+            <a (click)="verTodasLasNotificaciones()">Ver todos los alquileres</a>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- USUARIO -->
+    <div class="dropdown-container">
+      <button class="icons-header" (click)="toggleUserDropdown()" aria-label="Perfil">
+        <img src="assets/icons/user-svgrepo-com.svg" alt="user">
+      </button>
+
+      @if (showUserDropdown()) {
+        <div class="dropdown user-dropdown">
+          <div class="dropdown-header user-info">
+            <img src="assets/icons/user-svgrepo-com.svg" alt="avatar" class="avatar">
+            <div>
+              <p class="user-name">{{ userName() }}</p>
+              <p class="user-email">{{ userEmail() }}</p>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" (click)="goToSettings()">
+            <img src="assets/icons/settings-svgrepo-com.svg" alt="Configuración" class="dropdown-icon">
+            <span>Configuración</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item logout" (click)="confirmLogout($event)">
+            <img src="assets/icons/exit-svgrepo-com.svg" alt="Salir" class="dropdown-icon">
+            <span>Cerrar Sesión</span>
+          </a>
+        </div>
+      }
+    </div>
+  </div>
+</header>
+
+<div class="siderbar" [class.menu-toggle]="menuOpen">
+  <nav>
+    <a routerLink="/admin/inicio" routerLinkActive="selected"><img src="assets/icons/home.svg" alt=""><span>Página de inicio</span></a>
+    <a routerLink="/admin/vestidos" routerLinkActive="selected"><img src="assets/icons/woman-fashion-clothes-svgrepo-com.svg" alt=""><span>Vestido</span></a>
+    <a routerLink="/admin/alquileres" routerLinkActive="selected"><img src="assets/icons/woman-fashion-clothes-svgrepo-com (1).svg" alt=""><span>Alquileres</span></a>
+    <a routerLink="/admin/mantenimiento" routerLinkActive="selected"><img src="assets/icons/washing-machine-laundry-cleaning-housekeeping-washing-svgrepo-com.svg" alt=""><span>Mantenimiento</span></a>
+    <a routerLink="/admin/pagos" routerLinkActive="selected"><img src="assets/icons/paypal-svgrepo-com.svg" alt=""><span>Pagos</span></a>
+    <a routerLink="/admin/usuarios" routerLinkActive="selected"><img src="assets/icons/users.svg" alt=""><span>Usuarios</span></a>
+    <a routerLink="/admin/reportes" routerLinkActive="selected"><img src="assets/icons/file.svg" alt=""><span>Reportes</span></a>
+    <a routerLink="/admin/ajustes" routerLinkActive="selected"><img src="assets/icons/tools.svg" alt=""><span>Ajustes</span></a>
+    <a href="#" (click)="confirmLogout($event)"><img src="assets/icons/exit-svgrepo-com.svg" alt=""><span>Cerrar sesión</span></a>
+  </nav>
+</div>
+
+<main [class.menu-toggle]="menuOpen">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- AGREGADO: Componente global de ConfirmDialog -->
+<app-confirm-dialog></app-confirm-dialog>

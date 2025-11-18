@@ -1,0 +1,79 @@
+<div class="rental-modal" [class.loading]="loading()">
+  <h2>Alquilar Vestido</h2>
+
+  <form [formGroup]="rentalForm">
+    <!-- Nombre Cliente -->
+    <div class="form-group">
+      <label for="clienteNombre">Nombre Cliente *</label>
+      <input id="clienteNombre" type="text" formControlName="clienteNombre" />
+      <span class="error" [class.show]="hasError('clienteNombre')">
+        {{ hasError('clienteNombre') ? getErrorMessage('clienteNombre') : '' }}
+      </span>
+    </div>
+
+    <!-- Email Cliente -->
+    <div class="form-group">
+      <label for="clienteEmail">Email Cliente *</label>
+      <input id="clienteEmail" type="email" formControlName="clienteEmail" />
+      <span class="error" [class.show]="hasError('clienteEmail')">
+        {{ hasError('clienteEmail') ? getErrorMessage('clienteEmail') : '' }}
+      </span>
+    </div>
+
+    <!-- Talla -->
+    <div class="form-group">
+      <label for="talla">Talla{{ tallaSeleccionada() ? ' ' : '' }}</label>
+      <input
+        id="talla"
+        type="text"
+        formControlName="talla"
+        [class.locked]="tallaSeleccionada()"
+      />
+    </div>
+
+    <!-- Color -->
+    <div class="form-group">
+      <label for="color">Color</label>
+      <input
+        id="color"
+        type="text"
+        formControlName="color"
+        [class.locked]="true"
+      />
+    </div>
+
+    <!-- Fechas Alquiler -->
+    <div class="form-group">
+      <label for="desde">Desde *</label>
+      <input id="desde" type="date" formControlName="desde" />
+      <span class="error" [class.show]="hasError('desde')">
+        {{ hasError('desde') ? getErrorMessage('desde') : '' }}
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label for="hasta">Hasta *</label>
+      <input id="hasta" type="date" formControlName="hasta" />
+      <span class="error" [class.show]="hasError('hasta')">
+        {{ hasError('hasta') ? getErrorMessage('hasta') : '' }}
+      </span>
+    </div>
+  </form>
+
+  <div class="modal-actions">
+    <button
+      (click)="closeModal()"
+      class="btn-cancel"
+      type="button"
+      [disabled]="loading()">
+      Cancelar
+    </button>
+    <button
+      (click)="submit()"
+      class="btn-submit"
+      type="button"
+      [disabled]="!rentalForm.valid || loading()">
+      {{ loading() ? 'Procesando...' : 'Crear' }}
+    </button>
+  </div>
+</div>

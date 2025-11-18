@@ -1,0 +1,224 @@
+// --- Estilos para el modal y backdrop ---
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.33);
+  z-index: 998;
+}
+.modal-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// --- CONTENEDOR DEL MODAL ---
+.create-maintenance-container {
+  max-width: 720px;         // ancho modal en desktop
+  min-width: 380px;
+  width: 100vw;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  background: white;
+  border-radius: 30px;      // radius grande
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.17), 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;         // limita altura para evitar el modal “largo”
+  overflow-y: auto;         // scroll interno al desbordar
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e6e9ed;
+
+    h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #053D4E;
+    }
+
+    .btn-secondary {
+      padding: 0.5rem 1.1rem;
+      background: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.97rem;
+      &:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 13px rgba(80, 80, 80, 0.16);
+      }
+    }
+  }
+
+  .success-message {
+    padding: 0.85rem 1.1rem;
+    margin-bottom: 1.1rem;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 11px;
+    color: #155724;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: slideIn 0.25s ease;
+    font-size: 1.01rem;
+  }
+
+  .error-message {
+    padding: 0.85rem 1.1rem;
+    margin-bottom: 1.1rem;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 11px;
+    color: #721c24;
+    font-weight: 600;
+    animation: slideIn 0.25s ease;
+    font-size: 1.01rem;
+  }
+
+  .maintenance-form {
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr; // 2 columnas desktop
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+
+        &.full-width {
+          grid-column: 1 / -1;
+        }
+
+        label {
+          font-weight: 600;
+          color: #32363B;
+          font-size: 0.96rem;
+        }
+
+        .form-control {
+          padding: 0.55rem 0.9rem;
+          border: 1.5px solid #e6e9ed;
+          border-radius: 10px;
+          font-size: 1rem;
+          transition: all 0.18s ease;
+          font-family: inherit;
+
+          &:focus {
+            outline: none;
+            border-color: #355CC0;
+            box-shadow: 0 0 0 2.5px rgba(53, 92, 192, 0.12);
+          }
+
+          &:disabled {
+            background: #f7f9fa;
+            cursor: not-allowed;
+          }
+        }
+
+        select.form-control {
+          cursor: pointer;
+          background: white;
+        }
+
+        textarea.form-control {
+          resize: vertical;
+          min-height: 62px;
+        }
+
+        .error-text {
+          color: #dc3545;
+          font-size: 0.85rem;
+          margin-top: 0.17rem;
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.7rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e6e9ed;
+
+      button {
+        padding: 0.6rem 1.3rem;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.21s ease;
+
+        &:disabled {
+          opacity: 0.60;
+          cursor: not-allowed;
+          transform: none !important;
+        }
+      }
+
+      .btn-cancel {
+        background: #e6e9ed;
+        color: #32363B;
+
+        &:hover:not(:disabled) {
+          background: #d1d5db;
+          transform: translateY(-2px);
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+        }
+      }
+
+      .btn-submit {
+        background: #355CC0;
+        color: white;
+
+        &:hover:not(:disabled) {
+          background: #2a4a9d;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 11px rgba(53, 92, 192, 0.13);
+        }
+
+        span {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// RESPONSIVO: 1 columna en móvil, padding suave
+@media (max-width: 800px) {
+  .create-maintenance-container {
+    max-width: 97vw;
+    min-width: unset;
+    padding: 1.1rem 0.7rem;
+    border-radius: 20px;
+    .maintenance-form .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

@@ -1,0 +1,226 @@
+:host {
+  display: block;
+  padding-top: 100px;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 1.4rem auto 2rem;
+  padding: 0 1rem;
+}
+
+.title {
+  font-weight: 800;
+  margin: 0 0 0.8rem;
+  font-size: 1.6rem;
+  color: var(--text-title-color);
+}
+
+/* ✅ FILTROS MINIMALISTAS */
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.filters-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.pill-input,
+.pill-select {
+  padding: 0.55rem 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+
+  &:focus {
+    border-color: var(--text-selected-color);
+    box-shadow: 0 0 0 2px rgba(53, 92, 192, 0.1);
+  }
+}
+
+.pill-input {
+  min-width: 200px;
+}
+
+.pill-select {
+  min-width: 120px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--text-selected-color);
+  }
+}
+
+.filters-right {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pill-btn {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: #f5f5f5;
+    border-color: var(--text-selected-color);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* ✅ BLOQUES DE SECCIONES */
+.block {
+  margin-top: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0.2rem 0 0.6rem;
+  color: var(--text-title-color);
+}
+
+.empty {
+  color: var(--text-color);
+  margin: 0.2rem 0 1rem;
+  padding: 1rem;
+  background: var(--background-hover);
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* ✅ GRID 2 COLUMNAS */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* ✅ RESPONSIVE */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .filters-left,
+  .filters-right {
+    width: 100%;
+    flex-direction: column;
+
+    .pill-input,
+    .pill-select,
+    .pill-btn {
+      width: 100%;
+    }
+  }
+
+  .filters-right {
+    flex-direction: row;
+
+    .pill-btn {
+      flex: 1;
+      width: auto;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  :host {
+    padding-top: 80px;
+  }
+
+  .wrap {
+    margin: 1rem auto;
+    padding: 0 0.5rem;
+  }
+
+  .title {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .filters {
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .filters-left {
+    gap: 0.4rem;
+  }
+
+  .pill-input,
+  .pill-select {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  .filters-right {
+    width: 100%;
+  }
+
+  .pill-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    flex: 1;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .section-title {
+    font-size: 1rem;
+  }
+
+  .block {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .pill-input,
+  .pill-select,
+  .pill-btn {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .filters-right {
+    gap: 0.3rem;
+  }
+}

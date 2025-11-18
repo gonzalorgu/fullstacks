@@ -1,0 +1,103 @@
+<div class="overview-container">
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Bienvenido, Admin</h1>
+    <p class="subtitle">Panel de control general</p>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando datos...</p>
+    </div>
+  } @else {
+    <!-- STATS GRID -->
+    <div class="stats-grid">
+      @for (stat of stats(); track stat.label) {
+        <div class="stat-card">
+          <div class="stat-icon" [innerHTML]="stat.icon"></div>
+          <div class="stat-content">
+            <p class="stat-label">{{ stat.label }}</p>
+            <p class="stat-value">{{ stat.value }}</p>
+            <p class="stat-hint">{{ stat.hint }}</p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- ACCIONES RÁPIDAS -->
+    <div class="quick-actions">
+      <h2>Acciones Rápidas</h2>
+      <div class="actions-grid">
+        <a routerLink="/admin/usuarios" class="action-card">
+          <div class="action-icon"><img src="assets/icons/users.svg" alt="chat"></div>
+          <div class="action-content">
+            <h3>Gestionar Clientes</h3>
+            <p>Ver y editar clientes</p>
+          </div>
+        </a>
+
+        <a routerLink="/admin/vestidos" class="action-card">
+          <div class="action-icon"><img src="assets/icons/woman-fashion-clothes-svgrepo-com.svg" alt="chat"></div>
+          <div class="action-content">
+            <h3>Inventario</h3>
+            <p>Ver vestidos disponibles</p>
+          </div>
+        </a>
+
+        <a routerLink="/admin/reportes" class="action-card">
+          <div class="action-icon"><img src="assets/icons/file.svg" alt="chat"></div>
+          <div class="action-content">
+            <h3>Reportes</h3>
+            <p>Análisis detallado</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- RECIENTES -->
+    <div class="recientes-section">
+      <div class="section-header">
+        <h2><img src="assets/icons/chat.svg" alt="chat"> Clientes Recientes</h2>
+        <a routerLink="/admin/alquileres" class="btn-ver-todos">Ver todos →</a>
+      </div>
+
+      @if (recientes().length > 0) {
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of recientes(); track row.id) {
+                <tr>
+                  <td><span class="id-badge">{{ row.id }}</span></td>
+                  <td><strong>{{ row.cliente }}</strong></td>
+                  <td>{{ row.fecha }}</td>
+                  <td>
+                    <span
+                      class="status-badge"
+                      [class.status-activo]="row.estado === 'Activo'"
+                      [class.status-pendiente]="row.estado === 'Pendiente'"
+                      [class.status-devuelto]="row.estado === 'Devuelto'">
+                      {{ row.estado }}
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <p><img src="assets/icons/chat.svg" alt="chat"> No hay clientes recientes</p>
+        </div>
+      }
+    </div>
+  }
+</div>

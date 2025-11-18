@@ -1,0 +1,156 @@
+// ✅ CONTENEDOR DEL MODAL CON OVERFLOW CONTROLADO
+:host {
+  display: contents;
+}
+
+// ✅ EVITAR QUE EL MODAL CAMBIE DE TAMAÑO
+.cdk-overlay-pane {
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+}
+
+.rental-modal {
+  padding: 30px;
+  max-width: 500px;
+  min-width: 480px; // ✅ Ancho mínimo fijo
+  width: 100%;
+  max-height: 90vh; // ✅ Altura máxima
+  overflow-y: auto; // ✅ Scroll si es necesario
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+  // ✅ Prevenir parpadeos al enviar
+  &.loading {
+    pointer-events: none;
+    opacity: 0.95;
+  }
+}
+
+h2 {
+  margin: 0 0 16px 0;
+  font-size: 1.4rem;
+  color: #333;
+  font-weight: 700;
+  flex-shrink: 0; // ✅ No se encoja
+}
+
+.form-group {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0; // ✅ No se encoja
+
+  // ✅ Ocultar fechas cuando no sea alquiler
+  &.hidden {
+    display: none !important;
+  }
+}
+
+label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+input,
+select {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  font-size: 0.98rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  width: 100%; // ✅ Asegurar ancho 100%
+  box-sizing: border-box; // ✅ Incluir padding en ancho
+
+  &:focus {
+    outline: none;
+    border-color: #333;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+
+  // ✅ Estilo para campos bloqueados
+  &.locked {
+    background-color: #f9f9f9;
+    cursor: not-allowed;
+    opacity: 0.8;
+    border-color: #e0e0e0;
+  }
+
+  // ✅ Disabled (para FormBuilder disabled)
+  &:disabled {
+    background-color: #f9f9f9;
+    cursor: not-allowed;
+    opacity: 0.8;
+    border-color: #e0e0e0;
+  }
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease;
+  flex-shrink: 0; // ✅ No se encoja
+
+  // ✅ Mostrar error solo cuando tenga la clase show
+  &.show {
+    max-height: 20px;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  flex-shrink: 0; // ✅ No se encoja
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  white-space: nowrap; // ✅ El texto no se quiebra
+  min-width: 100px; // ✅ Ancho mínimo para botones
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.btn-cancel {
+  background-color: #f5f5f5;
+  color: #333;
+
+  &:hover:not(:disabled) {
+    background-color: #efefef;
+  }
+}
+
+.btn-submit {
+  background-color: #333;
+  color: white;
+  padding: 10px 24px;
+
+  &:hover:not(:disabled) {
+    background-color: #1a1a1a;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  // ✅ Estado loading
+  &:disabled {
+    opacity: 0.7;
+    transform: none;
+  }
+}

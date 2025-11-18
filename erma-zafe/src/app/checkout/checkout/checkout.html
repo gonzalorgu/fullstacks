@@ -1,0 +1,45 @@
+<div class="checkout-container">
+  <h2>Resumen de tu pago</h2>
+
+  <div [hidden]="items().length !== 0">
+    No hay artículos para pagar
+    <button class="btn" (click)="goBack()">Volver</button>
+  </div>
+
+  <div [hidden]="items().length === 0">
+    <div class="checkout-list">
+      @for (item of items(); track item.nombre) {
+        <div class="checkout-card">
+          <h3>Reserva</h3>
+          <div class="item-summary">
+            <img [src]="item.imagen" alt="Vestido" />
+            <div class="details">
+              <h4>{{ item.nombre }}</h4>
+              <p><strong>Talla:</strong> {{ item.talla }}</p>
+              <p><strong>Color:</strong> {{ item.color }}</p>
+              <p><strong>Desde:</strong> {{ item.fechaDesde }}</p>
+              <p><strong>Hasta:</strong> {{ item.fechaHasta }}</p>
+              <p class="price"><strong>Total:</strong> S/ {{ item.precio }}</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <p><strong>Total a pagar:</strong> S/ {{ getTotal() }}</p>
+
+    <div class="payment-methods">
+      <h3>Método de Pago:</h3>
+      <button class="payment-btn whatsapp" (click)="pagarConWhatsApp()" [disabled]="processing()">
+        📱 Pagar por WhatsApp
+      </button>
+      <p class="info">
+        ✅ Se abrirá WhatsApp para confirmar el pago <br>
+        ✅ Tu pedido quedará como PENDIENTE <br>
+        ✅ El administrador validará y te confirmará
+      </p>
+    </div>
+
+    <button class="btn cancel" (click)="goBack()">Cancelar y volver</button>
+  </div>
+</div>

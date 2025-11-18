@@ -1,0 +1,123 @@
+<div class="quote-section">
+  <div class="quote-title">
+    Tu vestido de 15 años hecho a medida
+  </div>
+  <div class="quote-content">
+    <div class="quote-gallery">
+      <div class="gallery-grid">
+        @for (img of images(); track img) {
+          <img src="assets/jjj.jpg" alt="Vestidos de Quinceañeras" loading="lazy">
+        }
+      </div>
+      <div class="quote-highlight">
+        <b>Envíanos el modelo de tu vestido y te <span>haremos una cotización</span></b>
+      </div>
+      <div class="quote-desc">
+        Llena el formulario y nuestro equipo de ventas se pondrá en contacto contigo para coordinar una cita en nuestro Atelier.<br /><br />
+        Somos un equipo con más de 20 años de experiencia en la confección de vestidos de 15 años. Contamos con una gran variedad de modelos y podemos ayudarte a elegir el vestido que deseas confeccionar.<br /><br />
+        <i>Este servicio es exclusivamente para vestidos en venta.</i>
+      </div>
+    </div>
+    <form class="quote-form" [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
+      <h2>Completa tus datos</h2>
+
+      <div class="form-group">
+        <label>Nombre *</label>
+        <input formControlName="nombre" type="text" [readonly]="auth.isLoggedIn()" />
+        @if(!auth.isLoggedIn() && hasError('nombre')) {
+          <span class="error">Este campo es obligatorio</span>
+        }
+        @if(auth.isLoggedIn()) {
+          <span class="info">Obtenido automáticamente de tu cuenta</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Correo *</label>
+        <input formControlName="correo" type="email" [readonly]="auth.isLoggedIn()" />
+        @if(!auth.isLoggedIn() && hasError('correo')) {
+          <span class="error">Correo válido obligatorio</span>
+        }
+        @if(auth.isLoggedIn()) {
+          <span class="info">Obtenido automáticamente de tu cuenta</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Número de celular *</label>
+        <input formControlName="celular" type="text" maxlength="15" [readonly]="auth.isLoggedIn()" />
+        @if(!auth.isLoggedIn() && hasError('celular')) {
+          <span class="error">Celular obligatorio</span>
+        }
+        @if(auth.isLoggedIn()) {
+          <span class="info">Obtenido automáticamente de tu cuenta</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Fecha del evento *</label>
+        <input formControlName="fechaEvento" type="date" />
+        @if(hasError('fechaEvento')) {
+          <span class="error">Obligatorio</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Parentesco con la quinceañera *</label>
+        <select formControlName="parentesco">
+          <option value="" disabled selected>Seleccione</option>
+          @for (item of parentescos(); track item) {
+            <option [value]="item">{{item}}</option>
+          }
+        </select>
+        @if(hasError('parentesco')) {
+          <span class="error">Obligatorio</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Presupuesto *</label>
+        <select formControlName="presupuesto">
+          <option value="" disabled selected>Seleccione</option>
+          @for (item of presupuestos(); track item) {
+            <option [value]="item">{{item}}</option>
+          }
+        </select>
+        @if(hasError('presupuesto')) {
+          <span class="error">Obligatorio</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Dirección *</label>
+        <input formControlName="direccion" type="text" [readonly]="auth.isLoggedIn()" />
+        @if(!auth.isLoggedIn() && hasError('direccion')) {
+          <span class="error">Obligatorio</span>
+        }
+        @if(auth.isLoggedIn()) {
+          <span class="info">Obtenido automáticamente de tu cuenta</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Distrito *</label>
+        <input formControlName="distrito" type="text" />
+        @if(hasError('distrito')) {
+          <span class="error">Obligatorio</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Sube tu modelo de referencia</label>
+        <input type="file" (change)="onFileChange($event)" />
+      </div>
+      <div class="form-group">
+        <label>Mensaje</label>
+        <textarea formControlName="mensaje" rows="2"></textarea>
+      </div>
+      <button type="submit" [disabled]="quoteForm.invalid || loading">
+        {{ loading ? 'Enviando...' : 'Envía tus datos' }}
+      </button>
+    </form>
+  </div>
+</div>

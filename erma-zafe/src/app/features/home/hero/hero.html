@@ -1,0 +1,30 @@
+<section class="hero">
+    <div class="left">
+      <h1>
+        <span>Alquiler de</span><br />
+        <strong>Vestidos de</strong><br />
+        <strong>Ensueño</strong>
+      </h1>
+
+      <p>
+        Look inolvidable, precio conveniente y ajustes personalizados en
+        Erma Zafe. Encuentra tu vestido ideal con estilos de
+        tendencia, tallas y medidas adaptadas.
+      </p>
+
+      <div class="ctas">
+        <a routerLink="/catalogo" class="btn btn-primary">Ver Catálogo</a>
+        @if (isLoggedIn()) {
+          <a routerLink="/mis-alquiler" class="btn btn-ghost">Mis alquileres</a>
+        }
+      </div>
+    </div>
+
+    <figure class="media">
+      <img src="../../../../assets/6.jpg" alt="Modelo con vestido" />
+      <figcaption class="chip">
+        <b>Erma</b>
+        <span>Looks Inolvidables</span>
+      </figcaption>
+    </figure>
+  </section>

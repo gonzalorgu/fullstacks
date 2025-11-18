@@ -1,0 +1,293 @@
+.panel {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+
+    h2 {
+      margin: 0;
+      color: #333;
+      font-size: 1.75rem;
+    }
+
+    .btn-primary {
+      margin-top: 0.6rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: 10px;
+      background: #111;
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        background: #051218;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(18, 18, 19, 0.3);
+      }
+    }
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .search-box {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+
+      .search-icon {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        pointer-events: none;
+        opacity: 0.6;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 40px;
+        border: 2px solid #e0e0e0;
+        border-radius: 15px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+
+        &:focus {
+          outline: none;
+          border-color: #007bff;
+          box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+      }
+    }
+
+    .filters {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      .filter-select {
+        padding: 0.6rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 15px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: border-color 0.3s;
+
+        &:focus {
+          outline: none;
+          border-color: #007bff;
+        }
+      }
+
+      .btn-export {
+        padding: 0.6rem 1.25rem;
+        background: #2a2b2b;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background: #151916;
+        }
+
+        .search-icon {
+          width: 20px;
+          height: 20px;
+          filter: brightness(0) invert(1);
+        }
+      }
+    }
+  }
+
+  .results-info {
+    margin-bottom: 1rem;
+    color: #666;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .table-container {
+    overflow-x: auto;
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1200px; // ✅ Añadido para scroll horizontal
+
+      thead {
+        background: #f8f9fa;
+
+        th {
+          padding: 1rem;
+          text-align: left;
+          font-weight: 600;
+          color: #333;
+          border-bottom: 2px solid #dee2e6;
+          white-space: nowrap;
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #e9ecef;
+          transition: background 0.2s;
+
+          &:hover {
+            background: #f8f9fa;
+          }
+
+          &.inactive {
+            opacity: 0.6;
+            background: #f9f9f9;
+          }
+
+          td {
+            padding: 1rem;
+            color: #495057;
+
+            &.user-name {
+              strong {
+                color: #212529;
+              }
+            }
+
+            &.address-cell {
+              max-width: 200px; // ✅ Limitar ancho de dirección
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            &.empty-message {
+              text-align: center;
+              padding: 3rem;
+              color: #999;
+              font-size: 1.1rem;
+            }
+
+            .badge {
+              padding: 0.3rem 0.75rem;
+              border-radius: 12px;
+              font-size: 0.85rem;
+              font-weight: 600;
+              background: #6c757d;
+              color: white;
+
+              &.badge-admin {
+                background: #17a2b8;
+              }
+            }
+
+            .status-badge {
+              padding: 0.3rem 0.75rem;
+              border-radius: 12px;
+              font-size: 0.85rem;
+              font-weight: 600;
+              background: #dc3545;
+              color: white;
+
+              &.active {
+                background: #28a745;
+              }
+            }
+
+            .actions {
+              display: flex;
+              gap: 0.5rem;
+
+              .btn-icon {
+                padding: 0.4rem 0.6rem;
+                border: none;
+                border-radius: 15px;
+                cursor: pointer;
+                transition: all 0.3s;
+                font-size: 1rem;
+                background: #1a1a1a;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                  background: #333333;
+                  transform: scale(1.1);
+                }
+
+                &.btn-toggle {
+                  background: transparent;
+
+                  .search-icon {
+                    width: 24px;
+                    height: 24px;
+                    filter: brightness(0) invert(1);
+                  }
+                }
+
+                .icon-white, .search-icon {
+                  width: 24px;
+                  height: 24px;
+                  filter: brightness(0) invert(1);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .panel {
+    padding: 1rem;
+
+    .panel-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: stretch;
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    .controls .filters {
+      flex-direction: column;
+
+      .filter-select,
+      .btn-export {
+        width: 100%;
+      }
+    }
+
+    .table-container {
+      .table {
+        font-size: 0.85rem;
+
+        th, td {
+          padding: 0.5rem;
+        }
+      }
+    }
+  }
+}

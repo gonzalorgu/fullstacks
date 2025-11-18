@@ -1,0 +1,194 @@
+<section class="panel">
+  <!-- ✅ PANEL DE ALERTAS DE PENALIZACIONES -->
+  @if (alquileresRetrasados().length > 0) {
+    <div class="alert-panel">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <h3>¡Alerta de Retrasos!</h3>
+        <p>
+          Hay <strong>{{ alquileresRetrasados().length }}</strong> alquiler(es) retrasado(s) con una penalización total de
+          <strong class="penalty-amount">S/ {{ totalPenalizaciones() }}</strong>
+        </p>
+      </div>
+      <button class="alert-close" (click)="filtroEstado.set('retrasado'); aplicarFiltros()">
+        Ver Todos
+      </button>
+    </div>
+  }
+
+  <div class="panel-header">
+    <h2>Gestión de Alquileres</h2>
+    <div class="header-actions">
+      <button class="btn btn-refresh" (click)="cargarAlquileres()" [disabled]="cargando()">
+        <img src="assets/icons/update-alt-svgrepo-com.svg" alt="Actualizar" class="icon-refresh" [class.spinning]="cargando()" />
+        Actualizar
+      </button>
+      <button class="btn btn-primary" (click)="abrirModalNuevo()">
+        + Nuevo Alquiler
+      </button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="search-box">
+      <div class="search-input-wrapper">
+        <img src="assets/icons/search.svg" alt="Buscar" class="search-icon" />
+        <input
+          type="text"
+          placeholder="Buscar por cliente, vestido o ID..."
+          [value]="searchTerm()"
+          (input)="onSearchChange($event)"
+          class="search-input">
+      </div>
+    </div>
+
+    <div class="filters">
+      <select
+        [value]="filtroEstado()"
+        (change)="onFiltroEstadoChange($event)"
+        class="filter-select">
+        @for (estado of estadosDisponibles; track estado.value) {
+          <option [value]="estado.value">{{ estado.label }}</option>
+        }
+      </select>
+
+      <select
+        [value]="ordenPor()"
+        (change)="onOrdenChange($event)"
+        class="filter-select">
+        <option value="fecha">Ordenar por Fecha</option>
+        <option value="cliente">Ordenar por Cliente</option>
+        <option value="estado">Ordenar por Estado</option>
+      </select>
+
+      <select
+        [value]="itemsPorPagina()"
+        (change)="onItemsPorPaginaChange($event)"
+        class="filter-select">
+        <option [value]="10">10 por página</option>
+        <option [value]="25">25 por página</option>
+        <option [value]="50">50 por página</option>
+        <option [value]="100">100 por página</option>
+      </select>
+
+      <button class="btn btn-export" (click)="exportarCSV()">
+        <img src="assets/icons/export-2-svgrepo-com.svg" alt="Exportar CSV" class="icon-export" />
+      </button>
+    </div>
+  </div>
+
+  <div class="results-info">
+    Mostrando {{ (paginaActual() - 1) * itemsPorPagina() + 1 }} - {{ Math.min(paginaActual() * itemsPorPagina(), alquileresFiltrados().length) }} de {{ alquileresFiltrados().length }} alquileres (Total: {{ rows().length }})
+  </div>
+
+  <div class="table">
+    <div class="t-head">
+      <div>ID</div>
+      <div>Cliente</div>
+      <div>Vestido</div>
+      <div>Talla</div>
+      <div>Color</div>
+      <div>Desde</div>
+      <div>Hasta</div>
+      <div>Días</div>
+      <div>Precio</div>
+      <div>Penalización</div> <!-- ✅ NUEVA COLUMNA -->
+      <div>Estado</div>
+      <div>Acciones</div>
+    </div>
+
+    @for (r of alquileresPaginados(); track r.id) {
+      <div class="t-row" [class.row-retrasado]="estaRetrasado(r)">
+        <div><strong>#{{ r.id }}</strong></div>
+        <div class="cliente-name">
+          {{ r.cliente }}
+          <!-- ✅ BADGE DE ADVERTENCIA -->
+          @if (estaRetrasado(r)) {
+            <span class="badge-warning" [title]="'Retraso de ' + r.diasRetraso + ' día(s)'">
+              ⚠️ {{ r.diasRetraso }}d
+            </span>
+          }
+        </div>
+        <div>{{ r.vestido }}</div>
+        <div>
+          <span class="badge-talla">{{ r.talla || '-' }}</span>
+        </div>
+        <div>
+          <span class="badge-color">{{ r.color || '-' }}</span>
+        </div>
+        <div>{{ r.desde | date:'dd/MM/yyyy' }}</div>
+        <div>{{ r.hasta | date:'dd/MM/yyyy' }}</div>
+        <div>
+          <span class="badge-days">{{ calcularDias(r.desde, r.hasta) }} días</span>
+        </div>
+        <div class="precio">{{ r.precio ? ('S/' + r.precio) : '-' }}</div>
+        <!-- ✅ COLUMNA DE PENALIZACIÓN -->
+        <div class="penalizacion">
+          @if (r.penalizacion && r.penalizacion > 0) {
+            <span class="badge-penalty">+S/ {{ r.penalizacion }}</span>
+          } @else {
+            <span class="no-penalty">S/ 0</span>
+          }
+        </div>
+        <div>
+          <select
+            [value]="r.estado"
+            (change)="cambiarEstado(r, $event)"
+            class="estado-select"
+            [style.background-color]="getEstadoColor(r.estado)">
+            <option value="pendiente">Pendiente</option>
+            <option value="activo">Activo</option>
+            <option value="retrasado">Retrasado</option>
+            <option value="pasado">Pasado</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+        </div>
+        <div class="actions">
+          <button
+            class="btn-icon btn-edit"
+            (click)="abrirModalEditar(r)"
+            title="Editar">
+            <img src="assets/icons/edit-3-svgrepo-com.svg" alt="Editar" class="icon-white" />
+          </button>
+          <button
+            class="btn-icon btn-delete"
+            (click)="eliminarAlquiler(r.id)"
+            title="Eliminar">
+            <img src="assets/icons/trash-blank-alt-svgrepo-com.svg" alt="Eliminar" class="icon-white" />
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div class="t-row empty">
+        <div class="empty-message">No se encontraron alquileres</div>
+      </div>
+    }
+  </div>
+
+  @if (totalPaginas() > 1) {
+    <div class="pagination">
+      <button
+        class="pagination-btn"
+        (click)="irAPagina(1)"
+        [disabled]="paginaActual() === 1">
+        « Anterior
+      </button>
+
+      @for (pagina of paginasVisibles(); track pagina) {
+        <button
+          class="pagination-btn"
+          [class.active]="pagina === paginaActual()"
+          (click)="irAPagina(pagina)">
+          {{ pagina }}
+        </button>
+      }
+
+      <button
+        class="pagination-btn"
+        (click)="irAPagina(paginaActual() + 1)"
+        [disabled]="paginaActual() === totalPaginas()">
+        Siguiente »
+      </button>
+    </div>
+  }
+</section>

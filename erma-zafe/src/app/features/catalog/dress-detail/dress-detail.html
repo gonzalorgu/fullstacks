@@ -1,0 +1,106 @@
+<section class="wrap">
+  <!-- ✅ MOSTRAR CONTENIDO SOLO SI EXISTE VESTIDO -->
+  @if (dress()) {
+    <div class="top">
+      <div class="image-section">
+        <div class="thumbnails">
+          @for (foto of dress()?.fotos; track $index; let i = $index) {
+            <button type="button"
+                    class="thumbnail"
+                    [class.active]="selectedPhotoIndex() === i"
+                    (click)="selectPhoto(i)">
+              <img [src]="foto"
+                   [alt]="dress()!.nombre + ' - foto ' + (i + 1)"
+                   width="70"
+                   height="90"
+                   (error)="$event.target.src='assets/placeholder.jpg'" />
+            </button>
+          }
+        </div>
+
+        <figure class="media">
+          <img [src]="dress()!.fotos[selectedPhotoIndex()]"
+               [alt]="dress()!.nombre"
+               width="540"
+               height="675"
+               (error)="$event.target.src='assets/placeholder.jpg'" />
+          <button type="button" class="zoom-btn" aria-label="Ver en tamaño completo">
+            <i class="fas fa-search-plus"></i>
+          </button>
+        </figure>
+      </div>
+
+      <div class="info">
+        <h1 class="title">{{ dress()!.nombre }}</h1>
+        <p class="desc">
+          {{ dress()!.descripcion }}
+        </p>
+        <ul class="bullets">
+          <li>Material: tul, forro interior</li>
+          <li>Incluye: botón y lazo</li>
+          <li>Categoría: {{ dress()!.categoria }}</li>
+        </ul>
+
+        @if ((dress()?.colors?.length ?? 0) > 0) {
+          <div class="colors-section">
+            <label class="label">Colores</label>
+            <div class="color-selector">
+              @for (color of dress()!.colors!; track color) {
+                <button type="button"
+                        class="color-circle"
+                        [class.selected]="selectedColor() === color"
+                        [style.background-color]="color"
+                        [title]="getColorName(color)"
+                        (click)="setSelectedColor(color)">
+                  @if (selectedColor() === color) {
+                    <span class="check-mark"></span>
+                  }
+                </button>
+              }
+            </div>
+          </div>
+        }
+
+        <div class="price">
+          <span class="amount">S/ {{ currentPrice() }}</span>
+          <span class="vat">Impuestos incluidos</span>
+        </div>
+
+        <div class="block">
+          <label class="label">Tallas</label>
+          <div class="sizes">
+            @for (t of dress()?.talla; track t) {
+              <button type="button"
+                      class="size"
+                      [class.active]="t === size()"
+                      (click)="setSize(t)">
+                {{ t }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Carrito visible siempre para alquiler -->
+        <div class="cta">
+          <button class="btn secondary" (click)="addToCart()">
+            🛒 Agregar al carrito
+          </button>
+          <button class="btn primary" (click)="openSaleModal()">
+            {{ actionButtonText() }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (related() && related().length > 0) {
+    <section class="related">
+      <h2>También te puede interesar</h2>
+      <div class="grid">
+        @for (r of related(); track r.id) {
+          <app-dress-card [dress]="r" />
+        }
+      </div>
+    </section>
+  }
+</section>

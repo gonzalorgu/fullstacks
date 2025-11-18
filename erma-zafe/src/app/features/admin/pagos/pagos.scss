@@ -1,0 +1,465 @@
+.pagos-container {
+  padding: 2rem;
+  background: #f8f9fa;
+  min-height: 100vh;
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+     img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+          }
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+
+      button {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &.btn-primary {
+          background: #1f2937;
+          color: white;
+
+          &:hover {
+            background: #111827;
+            transform: translateY(-2px);
+          }
+        }
+
+        &.btn-export {
+          background: #10b981;
+          color: white;
+
+          &:hover {
+            background: #059669;
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+  }
+
+  // ==================== FILTROS ====================
+  .filters-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+
+     img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+          }
+
+    .date-range {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: flex-end;
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex: 1;
+
+        label {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #374151;
+        }
+
+        .date-input {
+          padding: 0.75rem;
+          border: 1px solid #d1d5db;
+          border-radius: 6px;
+          font-size: 0.95rem;
+
+          &:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+          }
+        }
+      }
+
+      .btn-filtrar {
+        padding: 0.75rem 1.5rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #059669;
+        }
+      }
+    }
+
+    .search-method {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 4rem;
+
+      .search-box {
+        .search-input {
+          width: 100%;
+          padding: 0.75rem 1rem;
+          border: 1px solid #d1d5db;
+          border-radius: 6px;
+          font-size: 0.95rem;
+
+          &:focus {
+            outline: none;
+            border-color: #3b82f6;
+          }
+        }
+      }
+
+      .metodo-filter {
+        label {
+          display: block;
+          font-weight: 600;
+          color: #374151;
+          margin-bottom: 0.75rem;
+          font-size: 0.875rem;
+        }
+
+        .method-options {
+          display: flex;
+          gap: 0.75rem;
+          flex-wrap: wrap;
+
+          .method-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            background: white;
+            color: #6b7280;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+              border-color: #9ca3af;
+            }
+
+            &.active {
+              border-color: #3b82f6;
+              background: #3b82f6;
+              color: white;
+            }
+
+            &.yape-btn { border-left: 3px solid #7c3aed; }
+            &.plin-btn { border-left: 3px solid #8b5cf6; }
+            &.transfer-btn { border-left: 3px solid #374151; }
+          }
+        }
+      }
+    }
+  }
+
+  // ==================== TABLA ====================
+  .table-wrapper {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    margin-bottom: 2rem;
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+
+      thead {
+        background: #f9fafb;
+        border-bottom: 2px solid #e5e7eb;
+
+        th {
+          padding: 1rem;
+          text-align: left;
+          font-weight: 600;
+          color: #374151;
+          font-size: 0.875rem;
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #e5e7eb;
+          transition: background 0.2s;
+
+          &:hover {
+            background: #f9fafb;
+          }
+
+          td {
+            padding: 1rem;
+            color: #4b5563;
+            font-size: 0.9rem;
+
+            &.id-pago {
+              font-weight: 600;
+              color: #1f2937;
+            }
+
+            &.cliente {
+              .cliente-badge {
+                display: inline-block;
+                padding: 0.4rem 0.75rem;
+                background: #3b82f6;
+                color: white;
+                border-radius: 4px;
+                font-weight: 600;
+                font-size: 0.85rem;
+              }
+            }
+
+            &.monto {
+              font-weight: 600;
+              color: #1f2937;
+              font-size: 0.95rem;
+            }
+
+            &.metodo {
+              .metodo-badge {
+                display: inline-block;
+                padding: 0.4rem 0.75rem;
+                border-radius: 20px;
+                font-weight: 600;
+                font-size: 0.85rem;
+                color: white;
+
+                &.yape { background: #7c3aed; }
+                &.plin { background: #8b5cf6; }
+                &.efectivo { background: #3b82f6; }
+                &.transferencia { background: #374151; }
+              }
+            }
+
+            &.comprobante {
+              text-align: center;
+
+              .comprobante-thumb {
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+                border-radius: 6px;
+                border: 1px solid #e5e7eb;
+                cursor: pointer;
+                transition: all 0.3s;
+
+                &:hover {
+                  transform: scale(1.15);
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                }
+              }
+
+              .sin-comprobante {
+                color: #9ca3af;
+                font-size: 0.85rem;
+              }
+            }
+
+            &.estado {
+              .estado-badge {
+                display: inline-block;
+                padding: 0.4rem 1rem;
+                border-radius: 20px;
+                font-weight: 600;
+                font-size: 0.85rem;
+
+                &.pagado {
+                  background: #dcfce7;
+                  color: #16a34a;
+                }
+
+                &.pendiente {
+                  background: #fef3c7;
+                  color: #d97706;
+                }
+
+                &.abono {
+                  background: #dbeafe;
+                  color: #0369a1;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+
+      p {
+        color: #9ca3af;
+        margin-bottom: 1.5rem;
+      }
+
+      .btn-primary {
+        padding: 0.75rem 1.5rem;
+        background: #1f2937;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+
+        &:hover {
+          background: #111827;
+        }
+      }
+    }
+  }
+
+  .loading {
+    text-align: center;
+    padding: 3rem;
+    color: #9ca3af;
+  }
+
+  // ==================== PAGINACIÓN ====================
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+
+    .page-btn,
+    .page-number {
+      padding: 0.75rem 1rem;
+      border: 1px solid #d1d5db;
+      background: white;
+      color: #6b7280;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover:not(:disabled) {
+        background: #f3f4f6;
+        border-color: #9ca3af;
+      }
+
+      &.active {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+      }
+    }
+  }
+}
+
+// ==================== MODAL COMPROBANTE ====================
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease;
+
+  .modal-comprobante {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    animation: slideUp 0.3s ease;
+
+    .comprobante-grande {
+      width: 100%;
+      height: auto;
+      max-height: 85vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .btn-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(239, 68, 68, 0.9);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+
+      &:hover {
+        background: #dc2626;
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .pagos-container {
+    padding: 1rem;
+
+    .filters-section .search-method {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .table-wrapper .table {
+      font-size: 0.8rem;
+    }
+  }
+}

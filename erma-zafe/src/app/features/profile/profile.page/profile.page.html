@@ -1,0 +1,197 @@
+<section class="wrap">
+  <h1 class="title">Mi Perfil</h1>
+
+  <!-- Avatar y preferencias -->
+  <section class="card">
+    <div class="avatarBox">
+      <div class="avatar">
+        @if (store.profile().avatarUrl) {
+          <img [src]="store.profile().avatarUrl!" alt="Foto de perfil" />
+        } @else {
+          <div class="placeholder">{{ getInitials() }}</div>
+        }
+      </div>
+
+      <label class="btn ghost">
+        Cambiar foto
+        <input type="file" accept="image/*" (change)="onPickAvatar($event)" hidden />
+      </label>
+
+      @if (store.profile().avatarUrl) {
+        <button class="btn link" type="button" (click)="limpiarAvatar()">Quitar</button>
+      }
+    </div>
+
+    <div class="prefs">
+      <span class="label">Talla preferida</span>
+      <div class="segmented">
+        @for (t of tallas; track t) {
+          <button
+            type="button"
+            class="segment"
+            [class.active]="store.profile().tallaPref === t"
+            (click)="onTalla(t)">
+            {{ t }}
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Datos Personales -->
+  <section class="card">
+    <h2 class="card-title">Datos Personales</h2>
+
+    @if (mensajeDatos()) {
+      <div class="alert" [class.success]="!errorDatos()" [class.error]="errorDatos()">
+        {{ mensajeDatos() }}
+      </div>
+    }
+
+    <div class="grid2">
+      <!-- Nombre - EDITABLE -->
+      <label class="field">
+        <span>Nombre completo *</span>
+        <input
+          type="text"
+          [value]="store.profile().nombre"
+          (input)="onNombre($event)"
+          placeholder="Tu nombre completo" />
+      </label>
+
+      <!-- Email - BLOQUEADO -->
+      <label class="field">
+        <span>Correo electrónico</span>
+        <input
+          type="email"
+          [value]="store.profile().email"
+          disabled
+          class="disabled"
+          placeholder="correo@ejemplo.com" />
+        <small class="hint">El correo no se puede modificar</small>
+      </label>
+
+      <!-- Teléfono - EDITABLE -->
+      <label class="field">
+        <span>Teléfono *</span>
+        <input
+          type="tel"
+          [value]="store.profile().telefono"
+          (input)="onTelefono($event)"
+          placeholder="9XXXXXXXX"
+          maxlength="9" />
+        @if (telefonoInvalido()) {
+          <small class="error-hint">Debe ser 9 dígitos empezando por 9</small>
+        }
+      </label>
+
+      <!-- DNI - BLOQUEADO -->
+      <label class="field">
+        <span>DNI</span>
+        <input
+          type="text"
+          [value]="store.profile().dni"
+          disabled
+          class="disabled"
+          placeholder="12345678"
+          maxlength="8" />
+        <small class="hint">El DNI no se puede modificar</small>
+      </label>
+
+      <!-- Fecha de nacimiento - BLOQUEADO -->
+      <label class="field">
+        <span>Fecha de nacimiento</span>
+        <input
+          type="date"
+          [value]="store.profile().fechaNacimiento"
+          disabled
+          class="disabled" />
+        <small class="hint">La fecha de nacimiento no se puede modificar</small>
+      </label>
+
+      <!-- Dirección - EDITABLE -->
+      <label class="field">
+        <span>Dirección</span>
+        <input
+          type="text"
+          [value]="store.profile().direccion || ''"
+          (input)="onDireccion($event)"
+          placeholder="Av. Principal 123" />
+      </label>
+    </div>
+
+    <div class="actions">
+      <button
+        class="btn primary"
+        type="button"
+        (click)="guardarDatos()"
+        [disabled]="guardandoDatos() || !datosValidos()">
+        @if (guardandoDatos()) {
+          <span>Guardando...</span>
+        } @else {
+          <span>Guardar cambios</span>
+        }
+      </button>
+    </div>
+  </section>
+
+  <!-- Cambiar Contraseña -->
+  <section class="card">
+    <h2 class="card-title">Cambiar Contraseña</h2>
+
+    @if (mensajePassword()) {
+      <div class="alert" [class.success]="!errorPassword()" [class.error]="errorPassword()">
+        {{ mensajePassword() }}
+      </div>
+    }
+
+    <div class="grid3">
+      <label class="field">
+        <span>Contraseña actual *</span>
+        <input
+          type="password"
+          [value]="passActual()"
+          (input)="onPassActual($event)"
+          placeholder="••••••••" />
+      </label>
+
+      <label class="field">
+        <span>Contraseña nueva *</span>
+        <input
+          type="password"
+          [value]="passNueva()"
+          (input)="onPassNueva($event)"
+          placeholder="••••••••" />
+        @if (passNueva() && passNueva().length < 6) {
+          <small class="error-hint">Mínimo 6 caracteres</small>
+        }
+      </label>
+
+      <label class="field">
+        <span>Repetir nueva *</span>
+        <input
+          type="password"
+          [value]="passRepite()"
+          (input)="onPassRepite($event)"
+          placeholder="••••••••" />
+        @if (passRepite() && passNueva() !== passRepite()) {
+          <small class="error-hint">Las contraseñas no coinciden</small>
+        }
+      </label>
+    </div>
+
+    <div class="actions">
+      <button
+        class="btn primary"
+        type="button"
+        (click)="guardarPassword()"
+        [disabled]="guardandoPassword() || !passwordValida()">
+        @if (guardandoPassword()) {
+          <span>Actualizando...</span>
+        } @else {
+          <span>Actualizar contraseña</span>
+        }
+      </button>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,145 @@
+<section class="auth-wrap">
+  <div class="card">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="assets/h.png" alt="Logo" class="brand-icon" />
+      <div class="brand-text">
+        <span class="brand-script">Erma Zafe</span>
+        <small>Venta y alquiler<br />de vestidos</small>
+      </div>
+    </div>
+
+    <h1 class="title">Crear cuenta</h1>
+
+    <!-- Indicador de pasos -->
+    <div class="steps-indicator">
+      <div class="step" [class.active]="currentStep() === 1" [class.completed]="currentStep() > 1">1</div>
+      <div class="step-line" [class.completed]="currentStep() > 1"></div>
+      <div class="step" [class.active]="currentStep() === 2" [class.completed]="currentStep() > 2">2</div>
+      <div class="step-line" [class.completed]="currentStep() > 2"></div>
+      <div class="step" [class.active]="currentStep() === 3" [class.completed]="currentStep() > 3">3</div>
+      <div class="step-line" [class.completed]="currentStep() > 3"></div>
+      <div class="step" [class.active]="currentStep() === 4">4</div>
+    </div>
+
+    <!-- Error -->
+    @if (error()) {
+      <div class="error-message">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        {{ error() }}
+      </div>
+    }
+
+    <form>
+      <!-- PASO 1: INFORMACIÓN BÁSICA -->
+      @if (currentStep() === 1) {
+        <div class="step-content">
+          <h2 class="step-title">Información básica</h2>
+
+          <label class="field">
+            <span>Nombre completo *</span>
+            <input type="text" placeholder="Tu nombre completo" [value]="nombre()" (input)="onNombre($event)" required />
+          </label>
+
+          <label class="field">
+            <span>Correo electrónico *</span>
+            <input type="email" placeholder="tucorreo@ejemplo.com" [value]="email()" (input)="onEmail($event)" required />
+          </label>
+        </div>
+      }
+
+      <!-- PASO 2: CONTRASEÑA -->
+      @if (currentStep() === 2) {
+        <div class="step-content">
+          <h2 class="step-title">Seguridad</h2>
+
+          <label class="field">
+            <span>Contraseña *</span>
+            <div class="password-wrapper">
+              <input [type]="showPassword() ? 'text' : 'password'" placeholder="Mínimo 6 caracteres" [value]="pass()" (input)="onPass($event)" required />
+              <button type="button" class="toggle-password" (click)="togglePassword()">
+                @if (showPassword()) {
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                } @else {
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                }
+              </button>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Confirmar contraseña *</span>
+            <div class="password-wrapper">
+              <input [type]="showConfirmPassword() ? 'text' : 'password'" placeholder="Repite tu contraseña" [value]="confirm()" (input)="onConfirm($event)" required />
+              <button type="button" class="toggle-password" (click)="toggleConfirmPassword()">
+                @if (showConfirmPassword()) {
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                } @else {
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                }
+              </button>
+            </div>
+          </label>
+        </div>
+      }
+
+      <!-- PASO 3: CONTACTO -->
+      @if (currentStep() === 3) {
+        <div class="step-content">
+          <h2 class="step-title">Contacto</h2>
+
+          <label class="field">
+            <span>Teléfono *</span>
+            <input type="tel" placeholder="987654321" maxlength="9" [value]="telefono()" (input)="onTelefono($event)" required />
+          </label>
+        </div>
+      }
+
+      <!-- PASO 4: DOCUMENTO -->
+      @if (currentStep() === 4) {
+        <div class="step-content">
+          <h2 class="step-title">Información adicional</h2>
+
+          <label class="field">
+            <span>Documento (DNI) *</span>
+            <input type="text" placeholder="12345678" maxlength="8" [value]="dni()" (input)="onDni($event)" required />
+          </label>
+
+          <label class="field">
+            <span>Fecha de nacimiento *</span>
+            <input type="date" [value]="fechaNacimiento()" (input)="onFechaNacimiento($event)" required />
+          </label>
+
+          <label class="field">
+            <span>Dirección *</span>
+            <input type="text" placeholder="Av. Ejemplo 123, Apt 4B" [value]="direccion()" (input)="onDireccion($event)" required />
+          </label>
+        </div>
+      }
+
+      <!-- Botones de navegación -->
+      <div class="btn-group">
+        @if (currentStep() > 1) {
+          <button type="button" class="btn secondary" (click)="prevStep()">← Atrás</button>
+        }
+
+        @if (currentStep() < 4) {
+          <button type="button" class="btn primary" (click)="nextStep()">Siguiente →</button>
+        } @else {
+          <button type="button" class="btn primary" (click)="submit()" [disabled]="loading()">
+            {{ loading() ? 'Registrando…' : 'Registrarse' }}
+          </button>
+        }
+      </div>
+    </form>
+
+    <!-- Link a login -->
+    <div class="links">
+      <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a></p>
+    </div>
+  </div>
+</section>

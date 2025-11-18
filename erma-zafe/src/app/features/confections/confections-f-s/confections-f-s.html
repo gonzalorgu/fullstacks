@@ -1,0 +1,65 @@
+<div class="custom-order-section">
+  <div class="custom-order-content">
+    <!-- Columna izquierda: imagen + descripción -->
+    <div class="custom-order-image-text">
+      <div class="custom-order-image">
+         <img src="assets/tt.jpg" alt="Vestidos de fiesta" loading="lazy">
+      </div>
+      <p class="custom-order-description">
+        <b>Te confeccionamos el vestido a tu medida</b><br />
+        Tenemos un equipo con más de 20 años de experiencia, diseñamos vestidos a tu medida para la ocasión que necesites ya sea
+        <span style="color: #ff7667">quinceañeras, novias o para una fiesta formal</span>.
+        <br />Solo ingresa tus datos y nuestro equipo se pondrá en contacto contigo para definir una fecha y hora.
+      </p>
+    </div>
+    <form
+      class="custom-order-form"
+      [formGroup]="orderForm"
+      (ngSubmit)="submitOrder()"
+      autocomplete="off"
+    >
+      <h2>Completa tus datos</h2>
+      <div class="form-group">
+        <label>Nombre *</label>
+        <input formControlName="nombre" type="text" [readonly]="auth.isLoggedIn()" />
+        @if (!auth.isLoggedIn() && hasError('nombre')) {
+          <span class="error">Nombre es requerido</span>
+        }
+        @if (auth.isLoggedIn()) {
+          <span class="info">Obtenido automáticamente de tu cuenta</span>
+        }
+      </div>
+      <div class="form-group">
+        <label>Correo *</label>
+        <input formControlName="correo" type="email" [readonly]="auth.isLoggedIn()" />
+        @if (!auth.isLoggedIn() && hasError('correo')) {
+          <span class="error">Correo válido requerido</span>
+        }
+        @if (auth.isLoggedIn()) {
+          <span class="info">Obtenido automáticamente de tu cuenta</span>
+        }
+      </div>
+      <div class="form-group">
+        <label>Número de celular *</label>
+        <input formControlName="celular" type="text" maxlength="15" [readonly]="auth.isLoggedIn()" />
+        @if (!auth.isLoggedIn() && hasError('celular')) {
+          <span class="error">Número válido requerido</span>
+        }
+        @if (auth.isLoggedIn()) {
+          <span class="info">Obtenido automáticamente de tu cuenta</span>
+        }
+      </div>
+      <div class="form-group">
+        <label>Sube tu modelo de vestido (opcional)</label>
+        <input type="file" (change)="onFileSelected($event)" />
+      </div>
+      <div class="form-group">
+        <label>Mensaje (opcional)</label>
+        <textarea formControlName="mensaje" rows="3"></textarea>
+      </div>
+      <button type="submit" [disabled]="orderForm.invalid || submitting">
+        {{ submitting ? 'Enviando...' : 'Enviar Datos' }}
+      </button>
+    </form>
+  </div>
+</div>

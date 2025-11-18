@@ -1,0 +1,683 @@
+.reportes-container {
+  padding: 1.5rem;
+  background: #f8fafc;
+  min-height: 100vh;
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+
+     img {
+            width: 20px;
+            height: 25px;
+            object-fit: contain;
+          }
+
+
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -1px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+
+      .btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        .btn-icon {
+          font-size: 1.2rem;
+        }
+
+        &.btn-primary {
+          background: white;
+          color: #667eea;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+          }
+        }
+
+        &.btn-secondary {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          border: 2px solid white;
+
+          &:hover {
+            background: white;
+            color: #667eea;
+          }
+        }
+      }
+    }
+  }
+
+  .filters-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+    img {
+            width: 20px;
+            height: 25px;
+            object-fit: contain;
+          }
+
+    .date-range {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex: 1;
+        min-width: 250px;
+
+        label {
+          font-size: 0.875rem;
+          font-weight: 700;
+          color: #374151;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .date-input {
+          padding: 0.875rem 1rem;
+          border: 2px solid #e5e7eb;
+          border-radius: 10px;
+          font-size: 0.95rem;
+          background: #f9fafb;
+          transition: all 0.3s ease;
+
+          &:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+          }
+        }
+      }
+    }
+  }
+
+  .kpis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+
+    .kpi-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+
+      img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+          }
+
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      &.income {
+        border-color: #10b981;
+        .kpi-icon {
+          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+      }
+
+      &.payments {
+        border-color: #3b82f6;
+        .kpi-icon {
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+      }
+
+      &.pending {
+        border-color: #f59e0b;
+        .kpi-icon {
+          background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+      }
+
+      &.customers {
+        border-color: #8b5cf6;
+        .kpi-icon {
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+      }
+
+      .kpi-icon {
+        font-size: 3rem;
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        color: white;
+      }
+
+      .kpi-content {
+        flex: 1;
+
+        .kpi-label {
+          margin: 0 0 0.5rem 0;
+          color: #9ca3af;
+          font-size: 0.85rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          font-weight: 600;
+        }
+
+        .kpi-value {
+          margin: 0;
+          color: #1f2937;
+          font-size: 1.75rem;
+          font-weight: 800;
+          letter-spacing: -0.5px;
+        }
+      }
+    }
+  }
+
+  .section {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+
+      img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+          }
+
+    h2 {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    // ✅ NUEVOS ESTILOS PARA REPORTE DE ATRASOS
+    .late-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+
+      .late-summary-card {
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        &.danger {
+          background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+          border: 2px solid #ef4444;
+        }
+
+        &.warning {
+          background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+          border: 2px solid #f59e0b;
+        }
+
+        &.info {
+          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+          border: 2px solid #3b82f6;
+        }
+
+        .late-summary-icon {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .late-summary-label {
+          margin: 0 0 0.75rem 0;
+          color: #6b7280;
+          font-size: 0.875rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          font-weight: 600;
+        }
+
+        .late-summary-value {
+          margin: 0;
+          color: #111827;
+          font-size: 1.75rem;
+          font-weight: 800;
+        }
+      }
+    }
+
+    .late-reservations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+
+      .late-reservation-card {
+        background: white;
+        border: 2px solid #fee2e2;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);
+          border-color: #ef4444;
+        }
+
+        .late-card-image {
+          width: 100%;
+          height: 200px;
+          overflow: hidden;
+          background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+
+            &:hover {
+              transform: scale(1.05);
+            }
+          }
+
+          .no-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #d1d5db;
+          }
+        }
+
+        .late-card-content {
+          padding: 1.25rem;
+
+          .late-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+
+            .reservation-id {
+              font-family: 'Courier New', monospace;
+              font-weight: 700;
+              color: #667eea;
+              font-size: 0.9rem;
+            }
+
+            .days-late-badge {
+              padding: 0.35rem 0.75rem;
+              border-radius: 20px;
+              font-size: 0.85rem;
+              font-weight: 700;
+
+              &.minor {
+                background: #fef3c7;
+                color: #92400e;
+              }
+
+              &.moderate {
+                background: #fee2e2;
+                color: #991b1b;
+              }
+
+              &.severe {
+                background: #ef4444;
+                color: white;
+              }
+            }
+          }
+
+          .dress-name {
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+            color: #111827;
+            font-weight: 600;
+          }
+
+          .client-details,
+          .dates {
+            margin-bottom: 1rem;
+
+            p {
+              margin: 0.35rem 0;
+              font-size: 0.9rem;
+              color: #6b7280;
+
+              strong {
+                color: #374151;
+              }
+
+              &.overdue-date {
+                color: #ef4444;
+                font-weight: 600;
+              }
+            }
+          }
+
+          .late-fee {
+            background: #fef3c7;
+            padding: 0.75rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #f59e0b;
+
+            span {
+              font-size: 0.9rem;
+              color: #92400e;
+              font-weight: 600;
+            }
+
+            .fee-amount {
+              font-size: 1.2rem;
+              font-weight: 800;
+              color: #dc2626;
+            }
+          }
+        }
+      }
+    }
+
+    .no-late-reservations {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border-radius: 12px;
+      border: 2px solid #10b981;
+
+      .empty-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.3rem;
+        color: #065f46;
+        margin: 0.5rem 0;
+        font-weight: 700;
+      }
+
+      span {
+        color: #059669;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+    }
+
+    .methods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+
+      .method-card {
+        padding: 1.5rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: #667eea;
+          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+          transform: translateY(-2px);
+        }
+
+        .method-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+
+          .method-name {
+            font-weight: 700;
+            color: #1f2937;
+            font-size: 1.1rem;
+          }
+
+          .method-count {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            font-weight: 600;
+          }
+        }
+
+        .method-total {
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: #10b981;
+          margin-bottom: 1rem;
+        }
+
+        .method-bar {
+          height: 8px;
+          background: #f3f4f6;
+          border-radius: 10px;
+          overflow: hidden;
+
+          .method-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+          }
+        }
+      }
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+
+        thead {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+          th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 700;
+            color: white;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+        }
+
+        tbody {
+          tr {
+            border-bottom: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+
+            &:hover {
+              background: #f9fafb;
+            }
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            td {
+              padding: 1rem 1.5rem;
+              color: #4b5563;
+              font-size: 0.95rem;
+
+              &.text-center {
+                text-align: center;
+                font-weight: 600;
+                color: #667eea;
+              }
+
+              &.text-right {
+                text-align: right;
+                font-weight: 700;
+                color: #10b981;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+
+      .summary-card {
+        padding: 2rem;
+        background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+        border-radius: 12px;
+        border: 2px solid #e5e7eb;
+        text-align: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+          border-color: #667eea;
+        }
+
+        .summary-icon {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .summary-label {
+          margin: 0 0 0.75rem 0;
+          color: #9ca3af;
+          font-size: 0.875rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          font-weight: 600;
+        }
+
+        .summary-value {
+          margin: 0;
+          color: #1f2937;
+          font-size: 1.75rem;
+          font-weight: 800;
+        }
+      }
+    }
+  }
+
+  .loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem;
+    color: #9ca3af;
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid #e5e7eb;
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .reportes-container {
+    padding: 1rem;
+
+    .page-header {
+      flex-direction: column;
+      gap: 1.5rem;
+      text-align: center;
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .kpis-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .filters-section .date-range {
+      flex-direction: column;
+    }
+
+    .section {
+      .late-reservations-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

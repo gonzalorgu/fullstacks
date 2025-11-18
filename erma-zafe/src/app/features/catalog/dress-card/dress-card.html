@@ -1,0 +1,25 @@
+@if (dress) {
+  <article class="card">
+    <a [routerLink]="['/vestido', dress.id]" class="imgwrap">
+      <img
+        class="img"
+        [src]="dress.fotos[0] || 'assets/placeholder.jpg'"
+        [alt]="dress.nombre"
+        width="350"
+        height="438"
+        loading="lazy"
+        decoding="async"
+        (error)="$event.target.src='assets/placeholder.jpg'" />
+    </a>
+
+    <div class="body">
+      <h3>{{ dress.nombre }}</h3>
+      <p class="desc">{{ dress.descripcion }}</p>
+
+      <div class="chips">
+        <span class="chip">Alquiler: S/ {{ dress.precioAlquiler }}</span>
+      </div>
+
+    </div>
+  </article>
+}

@@ -1,0 +1,110 @@
+<div class="wedding-quote-section">
+  <div class="wedding-quote-content">
+    <div class="wedding-left">
+      <div class="wedding-quote-image">
+        <img src="assets/ll.jpg" alt="Vestidos de Novias" loading="lazy">
+      </div>
+      <div class="wedding-quote-description">
+        <h2>Te confeccionamos el vestido para tu boda</h2>
+        <p>
+          En Mechita Collection, transformamos tu visión en realidad, creando el vestido de tus sueños a medida. Nuestro proceso, personalizado y atento a los detalles, te asegura la mejor experiencia tan única como tu gran día. Aquí te explicamos cómo funciona:
+        </p>
+        <ul>
+          <li><span>Paso 1: Déjanos Tus Datos</span> – Completa el formulario de registro...</li>
+          <li><span>Paso 2: Nos Ponemos en Contacto Contigo</span> – Uno de nuestros asesores...</li>
+          <li><span>Paso 3: Definición del Modelo</span> – Durante la cita...</li>
+          <li><span>Paso 4: Primera Prueba</span> – Realizamos la primera prueba...</li>
+          <li><span>Paso 5: Prueba Final y Entrega</span> – En la última cita...</li>
+        </ul>
+        <p>
+          <i>Regístrate ahora para dar el primer paso hacia el atuendo con el vestido que refleje tu personalidad y tu historia. Descubre también promociones exclusivas para novias.</i>
+        </p>
+      </div>
+    </div>
+    <form
+      class="wedding-quote-form"
+      [formGroup]="weddingForm"
+      (ngSubmit)="submitWeddingForm()"
+      autocomplete="off"
+    >
+      <h2>Completa tus datos</h2>
+
+      <div class="form-group">
+        <label>Nombre y apellidos *</label>
+        <input formControlName="nombre" type="text" [readonly]="auth.isLoggedIn()" />
+        @if (!auth.isLoggedIn() && hasError('nombre')) {
+          <span class="error">Este campo es obligatorio</span>
+        }
+        @if (auth.isLoggedIn()) {
+          <span class="info">Obtenido automáticamente de tu perfil</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Celular *</label>
+        <input formControlName="celular" type="text" [readonly]="auth.isLoggedIn()" />
+        @if (!auth.isLoggedIn() && hasError('celular')) {
+          <span class="error">Celular obligatorio</span>
+        }
+        @if (auth.isLoggedIn()) {
+          <span class="info">Obtenido automáticamente de tu perfil</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Dirección *</label>
+        <input formControlName="direccion" type="text" [readonly]="auth.isLoggedIn()" placeholder="¿De dónde nos escribes?" />
+        @if (!auth.isLoggedIn() && hasError('direccion')) {
+          <span class="error">Este campo es obligatorio</span>
+        }
+        @if (auth.isLoggedIn()) {
+          <span class="info">Obtenido automáticamente de tu perfil</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Fecha de tu evento *</label>
+        <input formControlName="fechaEvento" type="date" />
+        @if (hasError('fechaEvento')) {
+          <span class="error">Fecha obligatoria</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Dinos tu presupuesto *</label>
+        <select formControlName="presupuesto">
+          @for (item of presupuestos; track item) {
+            <option [value]="item">{{ item }}</option>
+          }
+        </select>
+        @if (hasError('presupuesto')) {
+          <span class="error">Campo obligatorio</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Relación con la Novia *</label>
+        <select formControlName="relacionNovia">
+          @for (item of relacionesNovia; track item) {
+            <option [value]="item">{{ item }}</option>
+          }
+        </select>
+        @if (hasError('relacionNovia')) {
+          <span class="error">Campo obligatorio</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Sube tu diseño (opcional)</label>
+        <input type="file" (change)="onFileSelected($event)" />
+      </div>
+      <div class="form-group">
+        <label>Información adicional</label>
+        <textarea rows="2" formControlName="infoAdicional"></textarea>
+      </div>
+      <button type="submit" [disabled]="weddingForm.invalid || loading">
+        {{ loading ? 'Enviando...' : 'Enviar datos' }}
+      </button>
+    </form>
+  </div>
+</div>

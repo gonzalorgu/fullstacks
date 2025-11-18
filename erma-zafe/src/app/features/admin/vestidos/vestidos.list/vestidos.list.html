@@ -1,0 +1,137 @@
+<div class="vestidos-list-container">
+  @if (loading) {
+    <div class="loading-spinner">
+      <p>Cargando vestidos...</p>
+    </div>
+  }
+
+  @if (!loading && vestidos.length === 0) {
+    <div class="empty-state">
+      <p>No hay vestidos registrados</p>
+    </div>
+  }
+
+  @if (!loading && vestidos.length > 0) {
+    <div class="vestidos-grid">
+      @for (vestido of vestidos; track vestido.id) {
+        <article class="vestido-card"
+                 [class.no-disponible]="!isDisponible(vestido)"
+                 [class.sin-stock]="!tieneStock(vestido)">
+
+          <!-- ✅ BADGE MEJORADO CON INDICADOR DE STOCK -->
+          <div class="disponibilidad-badge"
+               [class.disponible]="isDisponible(vestido)"
+               [class.stock-bajo]="stockBajo(vestido)"
+               [class.agotado]="!tieneStock(vestido)">
+            @if (!tieneStock(vestido)) {
+              ❌ Agotado
+            } @else if (stockBajo(vestido)) {
+              ⚠️ Stock Bajo
+            } @else {
+              ✓ Disponible
+            }
+          </div>
+
+          <div class="card-image">
+            <img [src]="vestido.imagen ? 'http://localhost:3000' + vestido.imagen : '../../../../assets/4.jpg'"
+                 [alt]="vestido.name"
+                 (error)="onImageError($event)">
+          </div>
+
+          <div class="card-content">
+            <h3 class="vestido-title">{{ vestido.name }}</h3>
+            <p class="vestido-description">{{ vestido.description || 'Elegancia y estilo' }}</p>
+
+            <!-- ✅ COLORES -->
+            @if (vestido.colors && vestido.colors.length > 0) {
+              <div class="colores-info">
+                <strong>🎨 Colores:</strong>
+                <div class="colores-circles">
+                  @for (color of vestido.colors; track color) {
+                    <div class="color-circle-small"
+                         [style.background-color]="color"
+                         [title]="getColorName(color)">
+                    </div>
+                  }
+                </div>
+              </div>
+            } @else if (vestido.color && vestido.color !== '' && vestido.color !== '#000000') {
+              <div class="colores-info">
+                <strong>🎨 Color:</strong>
+                <div class="colores-circles">
+                  <div class="color-circle-small"
+                       [style.background-color]="vestido.color"
+                       [title]="getColorName(vestido.color)">
+                  </div>
+                </div>
+              </div>
+            } @else {
+              <div class="colores-info">
+                <strong>🎨 Color:</strong>
+                <div class="colores-circles">
+                  <div class="color-circle-small"
+                       [style.background-color]="'#1a1a1a'"
+                       title="Negro">
+                  </div>
+                </div>
+              </div>
+            }
+
+            <!-- ✅ TALLAS -->
+            <div class="tallas-info">
+              <strong>👕 Tallas:</strong>
+              <div class="tallas-list">
+                @for (talla of vestido.size; track talla) {
+                  <span class="talla-badge">{{ talla }}</span>
+                }
+              </div>
+            </div>
+
+            <!-- ✅ STOCK MEJORADO CON INDICADOR VISUAL -->
+            <div class="stock-info"
+                 [class.stock-bajo]="stockBajo(vestido)"
+                 [class.sin-stock]="!tieneStock(vestido)"
+                 [title]="stockBajo(vestido) ? '¡Pocas unidades disponibles!' : tieneStock(vestido) ? 'Stock disponible' : 'Sin stock'">
+              <strong>📦 Stock:</strong>
+              <span class="stock-value" [ngClass]="getStockClass(vestido)">
+                {{ vestido.quantity || 0 }}
+                @if (stockBajo(vestido)) {
+                  <span class="stock-warning">⚠️</span>
+                }
+              </span>
+            </div>
+
+            <!-- ✅ PRECIOS -->
+            <div class="precios">
+              <span class="precio-item">
+                <strong>💰 Alquiler:</strong> S/ {{ vestido.rental_price || 0 }}
+              </span>
+            </div>
+
+            <!-- ✅ ACCIONES CON BOTÓN DESHABILITADO SI NO HAY STOCK -->
+            <div class="card-actions">
+              <button (click)="onToggleDisponible(vestido)"
+                      class="btn-toggle"
+                      [class.activo]="isDisponible(vestido)"
+                      [disabled]="!tieneStock(vestido)"
+                      [title]="!tieneStock(vestido) ? 'No se puede activar sin stock' : ''">
+                {{ isDisponible(vestido) ? '✓ Activo' : '✕ Desactivado' }}
+              </button>
+
+              <button (click)="onEdit(vestido)"
+                      class="btn-view"
+                      [disabled]="!tieneStock(vestido)"
+                      [title]="!tieneStock(vestido) ? 'Primero debe reponer el stock' : 'Editar vestido'">
+                ✏️ Editar
+              </button>
+
+              <button (click)="onDelete(vestido.id!)" class="btn-delete">
+                🗑️ Eliminar
+              </button>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</div>

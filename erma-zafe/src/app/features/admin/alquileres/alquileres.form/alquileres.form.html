@@ -1,0 +1,165 @@
+<div class="alquiler-form-container">
+  <div class="form-header">
+    <h3>{{ isEditMode ? 'Editar Alquiler' : 'Nuevo Alquiler' }}</h3>
+    <button class="close-btn" (click)="onCancel()" type="button">✕</button>
+  </div>
+
+  @if (loadingData()) {
+    <div class="loading-overlay">
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Cargando datos...</p>
+      </div>
+    </div>
+  } @else {
+    <form [formGroup]="alquilerForm" (ngSubmit)="onSubmit()">
+      <div class="form-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cliente">Cliente *</label>
+            <select
+              id="cliente"
+              formControlName="cliente"
+              class="form-control"
+              [class.is-invalid]="f['cliente'].invalid && f['cliente'].touched">
+              <option value="">Seleccionar cliente</option>
+              @for (cliente of clientes(); track cliente.id) {
+                <option [value]="cliente.name || cliente.nombre">
+                  {{ cliente.name || cliente.nombre }}
+                </option>
+              }
+            </select>
+            @if (f['cliente'].invalid && f['cliente'].touched) {
+              <div class="error-message">Selecciona un cliente</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="vestido">Vestido *</label>
+            <select
+              id="vestido"
+              formControlName="vestido"
+              class="form-control"
+              [class.is-invalid]="f['vestido'].invalid && f['vestido'].touched"
+              (change)="onVestidoChange($event)">
+              <option value="">Seleccionar vestido</option>
+              @for (vestido of vestidos(); track vestido.id) {
+                <option [value]="vestido.name">
+                  {{ vestido.name }} - S/ {{ vestido.rental_price }}
+                </option>
+              }
+            </select>
+            @if (f['vestido'].invalid && f['vestido'].touched) {
+              <div class="error-message">Selecciona un vestido</div>
+            }
+          </div>
+        </div>
+
+        <!-- ✅ FILA CON TALLA Y COLOR -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="talla">Talla *</label>
+            <select
+              id="talla"
+              formControlName="talla"
+              class="form-control"
+              [class.is-invalid]="f['talla'].invalid && f['talla'].touched"
+              [disabled]="tallasDisponibles().length === 0">
+              <option value="">{{ tallasDisponibles().length === 0 ? 'Selecciona primero un vestido' : 'Seleccionar talla' }}</option>
+              @for (talla of tallasDisponibles(); track talla) {
+                <option [value]="talla">{{ talla }}</option>
+              }
+            </select>
+            @if (f['talla'].invalid && f['talla'].touched) {
+              <div class="error-message">Selecciona una talla</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="color">Color</label>
+            <input
+              type="text"
+              id="color"
+              formControlName="color"
+              class="form-control"
+              placeholder="Ej: Rojo, Azul..."
+              [disabled]="!f['vestido'].value">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="desde">Fecha de inicio *</label>
+            <input
+              type="date"
+              id="desde"
+              formControlName="desde"
+              class="form-control"
+              [class.is-invalid]="f['desde'].invalid && f['desde'].touched">
+            @if (f['desde'].invalid && f['desde'].touched) {
+              <div class="error-message">La fecha de inicio es requerida</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="hasta">Fecha de devolución *</label>
+            <input
+              type="date"
+              id="hasta"
+              formControlName="hasta"
+              class="form-control"
+              [class.is-invalid]="f['hasta'].invalid && f['hasta'].touched">
+            @if (f['hasta'].invalid && f['hasta'].touched) {
+              <div class="error-message">La fecha de devolución es requerida</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="precio">Precio total (S/) *</label>
+            <input
+              type="number"
+              id="precio"
+              formControlName="precio"
+              class="form-control"
+              [class.is-invalid]="f['precio'].invalid && f['precio'].touched"
+              placeholder="0.00"
+              step="0.01">
+            @if (f['precio'].invalid && f['precio'].touched) {
+              <div class="error-message">El precio debe ser mayor a 0</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="estado">Estado *</label>
+            <select id="estado" formControlName="estado" class="form-control">
+              @for (estado of estados; track estado.value) {
+                <option [value]="estado.value">{{ estado.label }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="notas">Notas adicionales</label>
+          <textarea
+            id="notas"
+            formControlName="notas"
+            class="form-control"
+            rows="3"
+            placeholder="Instrucciones especiales, comentarios..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button type="button" (click)="onCancel()" class="btn btn-secondary">
+          Cancelar
+        </button>
+        <button type="submit" [disabled]="!alquilerForm.valid" class="btn btn-primary">
+          {{ isEditMode ? 'Actualizar' : 'Crear Alquiler' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

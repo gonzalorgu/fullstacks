@@ -1,0 +1,65 @@
+<section class="wrap">
+  <h1 class="title">Mis Alquileres</h1>
+
+  <div class="filters">
+    <div class="filters-left">
+      <input type="search" placeholder="Buscar vestidos"
+             [value]="store.q()" (input)="onQ($event)" class="pill-input" />
+
+      <select [value]="store.estado()" (change)="onEstado($event)" class="pill-select">
+        <option value="todos">Todos</option>
+        <option value="pendientes">🔔 Pendientes</option>
+        <option value="activos">Activos</option>
+        <option value="pasados">Pasados</option>
+      </select>
+    </div>
+
+    <div class="filters-right">
+      <button class="pill-btn" (click)="setQuickRange('30d')">último mes</button>
+      <button class="pill-btn" (click)="setQuickRange('90d')">últimos 3 meses</button>
+      <button class="pill-btn" (click)="recargar()">🔄 Actualizar</button>
+    </div>
+  </div>
+
+  <!-- ✅ NUEVA SECCIÓN: PENDIENTES -->
+  <section class="block">
+    <h2 class="section-title">🔔 Pendientes de Pago</h2>
+    @if (store.pendientes().length === 0) {
+      <p class="empty">No tienes reservas pendientes.</p>
+    } @else {
+      <div class="grid">
+        @for (r of store.pendientes(); track r.id) {
+          <app-rental-card [r]="r" />
+        }
+      </div>
+    }
+  </section>
+
+  <!-- SECCIÓN EXISTENTE: ACTIVOS -->
+  <section class="block">
+    <h2 class="section-title">Activos</h2>
+    @if (store.activos().length === 0) {
+      <p class="empty">No tienes alquileres activos.</p>
+    } @else {
+      <div class="grid">
+        @for (r of store.activos(); track r.id) {
+          <app-rental-card [r]="r" />
+        }
+      </div>
+    }
+  </section>
+
+  <!-- SECCIÓN EXISTENTE: PASADOS -->
+  <section class="block">
+    <h2 class="section-title">Pasados</h2>
+    @if (store.pasados().length === 0) {
+      <p class="empty">No tienes alquileres pasados con los filtros actuales.</p>
+    } @else {
+      <div class="grid">
+        @for (r of store.pasados(); track r.id) {
+          <app-rental-card [r]="r" />
+        }
+      </div>
+    }
+  </section>
+</section>

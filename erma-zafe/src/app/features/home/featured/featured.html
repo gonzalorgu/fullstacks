@@ -1,0 +1,42 @@
+<section class="featured">
+  <header class="head">
+    <h2>Vestidos Destacados</h2>
+    <p class="sub">Nuestros clientes más solicitados para alquilar</p>
+  </header>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Cargando vestidos destacados...</p>
+    </div>
+  }
+
+  <!-- Vestidos -->
+  @if (!loading()) {
+    <div class="cards">
+      @for (vestido of vestidos(); track vestido.id) {
+        <article class="card">
+          <a [routerLink]="['/vestido', vestido.id]" class="imgwrap">
+            <img [src]="vestido.imagen"
+                 [alt]="vestido.nombre"
+                 (error)="$event.target.src='assets/4.jpg'" />
+          </a>
+          <div class="body">
+            <h3>{{ vestido.nombre }}</h3>
+            <p>{{ vestido.descripcion }}</p>
+
+            <div class="chips">
+              <span class="chip">Alquiler: S/ {{ vestido.precioAlquiler }}</span>
+              <!-- Eliminada la linea y chip de venta -->
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+
+    <div class="cta">
+
+    </div>
+  }
+</section>

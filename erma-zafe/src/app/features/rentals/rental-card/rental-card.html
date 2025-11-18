@@ -1,0 +1,66 @@
+@if (r) {
+  <article class="card">
+    <div class="imgwrap">
+      <img [src]="r.foto || 'assets/2.jpg'" [alt]="r.dressNombre" />
+    </div>
+
+    <div class="content">
+      <header class="head">
+        <h3 class="name">{{ r.dressNombre }}</h3>
+        <span class="badge"
+              [class.active]="r.estado === 'activo'"
+              [class.pending]="r.estado === 'pendiente'"
+              [class.past]="r.estado === 'pasado'"
+              [class.canceled]="r.estado === 'cancelado'">
+          {{
+            r.estado === 'activo' ? '✓ ACTIVO' :
+            r.estado === 'pendiente' ? '🔔 PENDIENTE' :
+            r.estado === 'cancelado' ? '✕ CANCELADO' :
+            'PASADO'
+          }}
+        </span>
+      </header>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <dt>Recogida</dt>
+          <dd>{{ r.desde | date:'MMM dd, y' }}</dd>
+        </div>
+
+        <div class="info-item">
+          <dt>Talla</dt>
+          <dd>{{ r.talla || '—' }}</dd>
+        </div>
+
+        <div class="info-item">
+          <dt>Devolución</dt>
+          <dd>{{ r.hasta | date:'MMM dd, y' }}</dd>
+        </div>
+
+        <div class="info-item">
+          <dt>Color</dt>
+          <dd>
+            <div class="color-display">
+              @if (r.color) {
+                <div class="color-dot" [style.background-color]="r.color"></div>
+                <span>{{ r.color }}</span>
+              } @else {
+                <span>—</span>
+              }
+            </div>
+          </dd>
+        </div>
+
+        <div class="info-item">
+          <dt>Precio</dt>
+          <dd>S/ {{ r.precioAlquiler }}</dd>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" routerLink="/mis-alquileres">Volver a reservar</a>
+        <a class="btn" [routerLink]="['/vestido', r.dressId]">Ver detalle</a>
+      </div>
+    </div>
+  </article>
+}

@@ -1,0 +1,380 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background: #fff;
+  transition: box-shadow 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid #e9e9e9;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1rem;
+}
+
+.brand-link {
+  text-decoration: none;
+  z-index: 101;
+}
+
+.brand-script {
+  font-family: 'Great Vibes', cursive;
+  font-style: italic;
+  font-size: 2.4rem;
+  color: #111;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #e91e63;
+  }
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 101;
+
+  span {
+    width: 28px;
+    height: 3px;
+    background: #111;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+
+    &:nth-child(1).open {
+      transform: rotate(45deg) translateY(9px);
+    }
+
+    &:nth-child(2).open {
+      opacity: 0;
+    }
+
+    &:nth-child(3).open {
+      transform: rotate(-45deg) translateY(-9px);
+    }
+  }
+}
+
+.desktop-nav {
+  display: flex;
+  gap: 2.4rem;
+  font-weight: 700;
+
+  a {
+    text-decoration: none;
+    color: #111;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+
+    &.active,
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.desktop-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem; // espacio entre carrito y usuario
+}
+
+// 🛒 Estilos del carrito con punto indicador en lugar de número
+.cart-btn {
+  position: relative; // Para posicionar badge
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: stroke 0.3s ease;
+
+  svg {
+    width: 30px;
+    height: 30px;
+    stroke: #111;
+    transition: stroke 0.3s ease;
+  }
+
+  &:hover svg {
+    stroke: #e91e63;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: 6px;   // ajusta para centrar el punto
+    right: 6px; // ajusta para centrar el punto
+    background: #e91e63;
+    width: 10px;         // tamaño punto
+    height: 10px;        // tamaño punto
+    border-radius: 50%;  // circulo
+    display: block;
+    box-shadow: 0 2px 6px rgba(233, 30, 99, 0.4);
+    animation: pulse 1.5s ease-in-out infinite;
+
+    // ocultar número
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.btn-login {
+  background: #0b0b0b;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #222;
+  }
+}
+
+.user-menu {
+  position: relative;
+}
+
+.user-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: filter 0.3s ease;
+  }
+
+  &:hover .user-avatar {
+    filter: brightness(0) saturate(100%) invert(30%) sepia(84%) saturate(714%) hue-rotate(335deg) brightness(94%) contrast(93%);
+  }
+
+  span {
+    display: none;
+  }
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 220px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  padding: 0.6rem 0;
+  z-index: 1000;
+  animation: dropdownSlide 0.2s ease-out;
+
+  a, button {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+
+    padding: 0.9rem 1.2rem;
+    text-decoration: none;
+    color: #333;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+
+    &:hover {
+      background: #f5f5f5;
+    }
+
+    .menu-icon {
+      width: 20px;
+      height: 20px;
+      opacity: 0.7;
+    }
+  }
+
+  button {
+    color: #ef4444;
+    font-weight: 600;
+
+    &:hover {
+      background: #fee;
+    }
+  }
+
+  .divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 0.5rem 0;
+  }
+}
+
+.mobile-menu-fullscreen {
+  position: fixed;
+  top: 76px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 76px);
+  background: white;
+  z-index: 99;
+  animation: slideDown 0.3s ease-out;
+  display: none;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1.5rem;
+  gap: 1rem;
+
+  a, button {
+    text-decoration: none;
+    color: #111;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    text-align: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    max-width: 300px;
+
+    &:hover, &.active {
+      background: #f5f5f5;
+      border-radius: 8px;
+    }
+  }
+
+  .cart-link-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: #e91e63 !important;
+    color: white !important;
+    border-radius: 12px;
+
+    svg {
+      stroke: white;
+    }
+
+    .cart-badge-mobile {
+      font-weight: 700;
+      opacity: 0.9;
+    }
+
+    &:hover {
+      background: #c2185b !important;
+    }
+  }
+
+  .logout-btn {
+    color: #ef4444;
+    margin-top: 1rem;
+
+    &:hover {
+      background: #fee2e2;
+    }
+  }
+
+  .login-btn {
+    background: #0b0b0b;
+    color: white;
+    border-radius: 12px;
+    margin-top: 2rem;
+
+    &:hover {
+      background: #222;
+    }
+  }
+
+  .divider {
+    width: 80%;
+    height: 1px;
+    background: #e9e9e9;
+    margin: 1rem 0;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .desktop-nav,
+  .desktop-user {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .mobile-menu-fullscreen {
+    display: block;
+  }
+
+  .brand-script {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 1.2rem 1rem;
+  }
+}

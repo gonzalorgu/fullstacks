@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+:root {
+  --background-color: white;
+  --text-title-color: #053D4E;
+  --text-color: #32363B;
+  --icon-menu-color: #707780;
+  --menu-color: #707780;
+  --text-selected-color: #355CC0;
+  --background-selected: #EBF0FF;
+  --background-hover: #F7F9FA;
+  --border-color: #E6E9ED;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+// ✅ CDK Dialog Overlay - SIN DUPLICADOS
+.cdk-overlay-container {
+  z-index: 1000;
+}
+
+.cdk-overlay-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+// ✅ Modales específicas
+.cdk-overlay-pane {
+  &.usuario-modal,
+  &.alquiler-modal {
+    .cdk-dialog-container {
+      padding: 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  }
+}
+
+// ✅ Prevenir scroll body cuando modal está abierto (OPCIONAL)
+body.cdk-global-scrollblock {
+  overflow: hidden;
+}

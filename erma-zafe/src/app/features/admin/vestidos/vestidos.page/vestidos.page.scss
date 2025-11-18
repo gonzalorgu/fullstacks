@@ -1,0 +1,98 @@
+
+ 
+.vestidos-page {
+  padding: 2rem;
+  font-family: 'Nunito', sans-serif;
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.3s ease-out;
+
+    h1 {
+      margin: 0;
+      color: #333;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      padding: 0.75rem 1.5rem;
+      background: #0b0b0b;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(11, 11, 11, 0.2);
+      
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+
+      &:hover {
+        background: #000;
+        transform: translateY(-2px) translateZ(0);
+        box-shadow: 0 4px 12px rgba(11, 11, 11, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0) translateZ(0);
+        transition-duration: 0.1s;
+      }
+    }
+  }
+
+  // ELIMINADA la animación de .form-section
+  .form-section {
+    margin-bottom: 1rem;
+    // Sin animación para evitar conflictos con el modal
+  }
+
+  .list-section {
+    animation: fadeIn 0.35s ease-out;
+    will-change: opacity;
+    transform: translateZ(0);
+  }
+}
+
+/* Animación solo para fadeIn */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .vestidos-page {
+    padding: 1rem;
+
+    .page-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: stretch;
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .btn-primary {
+        width: 100%;
+      }
+    }
+  }
+}
+
+/* Reducir animaciones para accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

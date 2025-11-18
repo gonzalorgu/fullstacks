@@ -1,0 +1,132 @@
+<div class="create-maintenance-container">
+  <div class="header">
+    <h2>Nuevo Registro de Mantenimiento</h2>
+    <button class="btn-secondary" (click)="cancel()">Volver</button>
+  </div>
+
+  @if (success()) {
+    <div class="success-message">
+      ✓ Mantenimiento registrado exitosamente
+    </div>
+  }
+
+  @if (error()) {
+    <div class="error-message">
+      {{ error() }}
+    </div>
+  }
+
+  <form [formGroup]="maintenanceForm" (ngSubmit)="onSubmit()" class="maintenance-form">
+    <div class="form-grid">
+
+      <div class="form-group full-width">
+        <label for="dressId">Vestido *</label>
+        <select
+          id="dressId"
+          formControlName="dressId"
+          (change)="onDressChange($event)"
+          class="form-control">
+          <option value="">Seleccione un vestido</option>
+          @for (dress of dresses(); track dress.id) {
+            <option [value]="dress.id">{{ dress.name }}</option>
+          }
+        </select>
+        @if (maintenanceForm.get('dressId')?.invalid && maintenanceForm.get('dressId')?.touched) {
+          <span class="error-text">Debe seleccionar un vestido</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="cantidad">Cantidad *</label>
+        <input
+          type="number"
+          id="cantidad"
+          formControlName="cantidad"
+          class="form-control"
+          placeholder="1"
+          min="1"
+          required>
+        @if (maintenanceForm.get('cantidad')?.invalid && maintenanceForm.get('cantidad')?.touched) {
+          <span class="error-text">Debe ingresar una cantidad válida</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="tipo">Tipo de Mantenimiento *</label>
+        <select id="tipo" formControlName="tipo" class="form-control">
+          @for (tipo of tiposMantenimiento; track tipo.value) {
+            <option [value]="tipo.value">{{ tipo.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="estado">Estado</label>
+        <select id="estado" formControlName="estado" class="form-control">
+          @for (estado of estadosMantenimiento; track estado.value) {
+            <option [value]="estado.value">{{ estado.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="costo">Costo (S/)</label>
+        <input
+          type="number"
+          id="costo"
+          formControlName="costo"
+          class="form-control"
+          placeholder="0.00"
+          step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label for="fechaInicio">Fecha de Inicio</label>
+        <input
+          type="date"
+          id="fechaInicio"
+          formControlName="fechaInicio"
+          class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="fechaFin">Fecha de Finalización</label>
+        <input
+          type="date"
+          id="fechaFin"
+          formControlName="fechaFin"
+          class="form-control">
+      </div>
+
+      <div class="form-group full-width">
+        <label for="observaciones">Observaciones</label>
+        <textarea
+          id="observaciones"
+          formControlName="observaciones"
+          class="form-control"
+          rows="4"
+          placeholder="Detalles adicionales sobre el mantenimiento..."></textarea>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="button"
+        class="btn-cancel"
+        (click)="cancel()"
+        [disabled]="loading()">
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        class="btn-submit"
+        [disabled]="loading() || maintenanceForm.invalid">
+        @if (loading()) {
+          <span>Guardando...</span>
+        } @else {
+          <span>Guardar Mantenimiento</span>
+        }
+      </button>
+    </div>
+  </form>
+</div>

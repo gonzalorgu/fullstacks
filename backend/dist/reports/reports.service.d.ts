@@ -1,0 +1,31 @@
+import { Repository } from "typeorm";
+import { Payment } from "../payment/entities/payment.entity";
+import { User } from "../auth/entities/user.entity";
+import { Rental } from "../rental/entities/rental.entity";
+import { ReportFiltersDto } from "./dto/report-filters.dto";
+import { DashboardResponse, MonthlyIncomeResponse, PaymentMethodsResponse, TopCustomersResponse, TopDressesResponse, SummaryResponse } from "./dto/report-response.dto";
+import { LateReservation, LateReportSummary } from "./dto/late-report-response.dto";
+export declare class ReportsService {
+    private paymentRepository;
+    private userRepository;
+    private rentalRepository;
+    constructor(paymentRepository: Repository<Payment>, userRepository: Repository<User>, rentalRepository: Repository<Rental>);
+    getDashboard(filters: ReportFiltersDto): Promise<DashboardResponse>;
+    getMonthlyIncome(filters: ReportFiltersDto): Promise<MonthlyIncomeResponse>;
+    getPaymentMethods(filters: ReportFiltersDto): Promise<PaymentMethodsResponse>;
+    getTopCustomers(filters: ReportFiltersDto): Promise<TopCustomersResponse>;
+    getTopDresses(filters: ReportFiltersDto): Promise<TopDressesResponse>;
+    getSummary(filters: ReportFiltersDto): Promise<SummaryResponse>;
+    getLateReservations(): Promise<LateReservation[]>;
+    getLateReportSummary(): Promise<LateReportSummary>;
+    private getTotalIncome;
+    private getTotalPayments;
+    private getPendingPayments;
+    private getTotalCustomers;
+    private getActiveRentals;
+    private getCompletedRentals;
+    private getAverageTransactionValue;
+    private getSuccessRate;
+    private getConversionMetrics;
+    private getFirstDayOfMonth;
+}

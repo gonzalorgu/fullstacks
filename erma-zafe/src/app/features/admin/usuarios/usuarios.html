@@ -1,0 +1,121 @@
+<section class="panel">
+  <div class="panel-header">
+    <h2>Gestión de Usuarios</h2>
+    <button class="btn btn-primary" (click)="abrirModalNuevo()">
+      + Nuevo Usuario
+    </button>
+  </div>
+
+  <div class="controls">
+    <div class="search-box">
+      <img src="assets/icons/search.svg" alt="Buscar" class="search-icon" />
+      <input
+        type="text"
+        placeholder="Buscar usuario..."
+        [value]="searchTerm()"
+        (input)="onSearchChange($any($event.target).value)"
+        class="search-input">
+    </div>
+    <div class="filters">
+      <select
+        [value]="filtroEstado()"
+        (change)="onFiltroEstadoChange($any($event.target).value)"
+        class="filter-select">
+        <option value="todos">Todos los estados</option>
+        <option value="activos">Solo activos</option>
+        <option value="inactivos">Solo inactivos</option>
+      </select>
+
+      <select
+        [value]="ordenPor()"
+        (change)="onOrdenChange($any($event.target).value)"
+        class="filter-select">
+        <option value="nombre">Ordenar por Nombre</option>
+        <option value="email">Ordenar por Email</option>
+        <option value="fecha">Ordenar por Fecha</option>
+      </select>
+
+      <button class="btn btn-export" (click)="exportarCSV()">
+        <img src="../../../../assets/icons/export-2-svgrepo-com.svg" alt="Exportar" class="search-icon" />
+      </button>
+    </div>
+  </div>
+
+  <div class="results-info">
+    Mostrando {{ usuariosFiltrados().length }} de {{ usuarios().length }} usuarios
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th><span title="Fecha de nacimiento">F. Nacimiento</span></th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Fecha Registro</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (u of usuariosFiltrados(); track u.id) {
+          <tr [class.inactive]="!u.isActive">
+            <td>{{ u.id }}</td>
+            <td class="user-name">
+              <strong>{{ u.nombre }}</strong>
+            </td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.telefono || '-' }}</td>
+            <td>
+              @if (u.fechaNacimiento) {
+                {{ u.fechaNacimiento | date:'dd/MM/yyyy' }}
+              } @else {
+                –
+              }
+            </td>
+            <td>
+              <span class="badge" [class.badge-admin]="u.role === 'admin'">
+                {{ u.role === 'admin' ? 'Admin' : 'Usuario' }}
+              </span>
+            </td>
+            <td>
+              <span class="status-badge" [class.active]="u.isActive">
+                {{ u.isActive ? '✓ Activo' : '✗ Inactivo' }}
+              </span>
+            </td>
+            <td>{{ u.createdAt | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <div class="actions">
+                <button class="btn-icon btn-toggle"
+                  (click)="toggleEstado(u)" [title]="u.isActive ? 'Desactivar' : 'Activar'">
+                  @if (u.isActive) {
+                    <img src="../../../../assets/icons/padlock-outlined-svgrepo-com.svg" alt="Candado cerrado" class="search-icon" />
+                  } @else {
+                    <img src="../../../../assets/icons/padlock-unlocked-outlined-svgrepo-com.svg" alt="Candado abierto" class="search-icon" />
+                  }
+                </button>
+                <button class="btn-icon btn-edit"
+                  (click)="abrirModalEditar(u)" title="Editar">
+                  <img src="../../../../assets/icons/edit-3-svgrepo-com.svg" alt="Editar" class="icon-white" />
+                </button>
+                <button class="btn-icon btn-delete"
+                  (click)="eliminarUsuario(u.id)" title="Eliminar">
+                  <img src="../../../../assets/icons/trash-blank-alt-svgrepo-com.svg" alt="Eliminar" class="icon-white" />
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="9" class="empty-message">
+              No se encontraron usuarios
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

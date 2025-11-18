@@ -1,0 +1,101 @@
+<div class="ajustes-container">
+  <h1 class="page-title">Admin Settings</h1>
+
+  <!-- GENERAL SETTINGS -->
+  <section class="settings-card">
+    <h2 class="card-title">General Settings</h2>
+
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Business Name</label>
+        <input
+          type="text"
+          [value]="nombre()"
+          (input)="onNombre($event)"
+          placeholder="Your Business Here">
+      </div>
+
+      <div class="form-field">
+        <label>Contact Email</label>
+        <input
+          type="email"
+          [value]="correo()"
+          (input)="onCorreo($event)"
+          placeholder="email@example.com">
+      </div>
+
+      <div class="form-field">
+        <label>Phone Number</label>
+        <input
+          type="tel"
+          [value]="telefono()"
+          (input)="onTelefono($event)"
+          placeholder="+123456780">
+      </div>
+
+      <div class="form-field full-width">
+        <label>Business Address</label>
+        <input
+          type="text"
+          [value]="direccion()"
+          (input)="onDireccion($event)"
+          placeholder="Street, City, Country">
+      </div>
+    </div>
+  </section>
+
+  <!-- BUSINESS HOURS -->
+  <section class="settings-card">
+    <h2 class="card-title">Business Hours</h2>
+
+    <div class="hours-list">
+      @for (day of horarios(); track day.dia) {
+        <div class="hour-row">
+          <div class="day-name">{{ day.dia }}</div>
+
+          @if (day.abierto) {
+            <div class="time-inputs">
+              <select class="time-select">
+                <option>06:00</option>
+                <option>07:00</option>
+                <option selected>08:00</option>
+              </select>
+              <span class="separator">-</span>
+              <select class="time-select">
+                <option>18:00</option>
+                <option>19:00</option>
+                <option selected>20:00</option>
+              </select>
+            </div>
+          } @else {
+            <span class="closed-badge">Closed All</span>
+          }
+
+          <label class="toggle-switch">
+            <input
+              type="checkbox"
+              [checked]="day.abierto"
+              (change)="toggleDia(day)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- RENTAL POLICIES -->
+  <section class="settings-card">
+    <h2 class="card-title">Rental Policies</h2>
+
+    <div class="policies-grid">
+      <div class="form-field">
+        <label>Deposit Percentage (%)</label>
+        <input
+          type="number"
+          [value]="depositoPorcentaje()"
+          (input)="onDeposito($event)"
+          placeholder="1">
+      </div>
+
+      <div class="form-field">
+        <label>00b

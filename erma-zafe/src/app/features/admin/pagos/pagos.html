@@ -1,0 +1,156 @@
+
+
+<!-- MODAL COMPROBANTE AMPLIADO -->
+@if (comprobanteAmpliado()) {
+  <div class="modal-backdrop" (click)="cerrarComprobante()">
+    <div class="modal-comprobante" (click)="$event.stopPropagation()">
+      <button class="btn-close" (click)="cerrarComprobante()">✕</button>
+      <img [src]="comprobanteAmpliado()" alt="Comprobante ampliado" class="comprobante-grande">
+    </div>
+  </div>
+}<div class="pagos-container">
+  <div class="page-header">
+    <h1><img src="assets/icons/sales-up-graph-svgrepo-com.svg" alt="chat"> Historial de Pagos</h1>
+    <div class="header-actions">
+      <button (click)="abrirModalNuevo()" class="btn-primary">+ Nuevo Pago</button>
+      <button class="btn-export">Exportar a Excel</button>
+    </div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filters-section">
+    <div class="date-range">
+      <div class="input-group">
+        <label>Desde</label>
+        <input type="date" class="date-input" #dateFrom>
+      </div>
+      <div class="input-group">
+        <label>Fesar el Hasta</label>
+        <input type="date" class="date-input" #dateTo>
+      </div>
+      <button (click)="filtrarPorFecha(dateFrom.value, dateTo.value)" class="btn-filtrar">
+        <img src="assets/icons/search.svg" alt="chat"> Filtrar por Fecha
+      </button>
+    </div>
+
+    <div class="search-method">
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="Buscar..." (keyup)="buscarPago($event)">
+      </div>
+
+      <div class="metodo-filter">
+        <label>Método</label>
+        <div class="method-options">
+          <button
+            class="method-btn todos-btn"
+            [class.active]="metodoSeleccionado === 'todos'"
+            (click)="filtrarPorMetodo('todos')">
+            Todos
+          </button>
+          <button
+            class="method-btn yape-btn"
+            [class.active]="metodoSeleccionado === 'yape'"
+            (click)="filtrarPorMetodo('yape')">
+            ● Yape
+          </button>
+          <button
+            class="method-btn plin-btn"
+            [class.active]="metodoSeleccionado === 'plin'"
+            (click)="filtrarPorMetodo('plin')">
+            ● Plin
+          </button>
+          <button
+            class="method-btn transfer-btn"
+            [class.active]="metodoSeleccionado === 'transferencia'"
+            (click)="filtrarPorMetodo('transferencia')">
+            Transferencia
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA -->
+  <div class="table-wrapper" *ngIf="!loading()">
+    @if (pagos().length > 0) {
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID de Pago</th>
+            <th>Cliente (Email)</th>
+            <th>Monto Pagado</th>
+            <th>Método de Pago</th>
+            <th>Referencia Alquiler</th>
+            <th>Comprobante</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pago of pagos(); track pago.id) {
+            <tr>
+              <td class="id-pago">{{ formatearId(pago.id) }}</td>
+              <!-- ✅ MOSTRAR EMAIL EN VEZ DE NÚMERO -->
+              <td class="cliente">
+                <span class="cliente-email">{{ obtenerEmailCliente(pago) }}</span>
+              </td>
+              <td class="monto">S/{{ pago.amount }}</td>
+              <td class="metodo">
+                <span class="metodo-badge" [ngClass]="getMetodoClass(pago.payment_method)">
+                  {{ pago.payment_method | titlecase }}
+                </span>
+              </td>
+              <td class="referencia">{{ formatearReferencia(pago.reference, pago.rental_id) }}</td>
+              <td class="comprobante">
+                @if (pago.receipt_image) {
+                  <img
+                    [src]="pago.receipt_image"
+                    alt="Comprobante"
+                    class="comprobante-thumb"
+                    (click)="verComprobante(pago.receipt_image)"
+                    title="Click para ampliar">
+                } @else {
+                  <span class="sin-comprobante">N/A</span>
+                }
+              </td>
+              <td class="estado">
+                <span class="estado-badge" [ngClass]="getEstadoClass(pago.status)">
+                  {{ pago.status }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <div class="empty-state">
+        <p>📭 No hay pagos registrados</p>
+        <button (click)="abrirModalNuevo()" class="btn-primary">
+          + Registrar Primer Pago
+        </button>
+      </div>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Cargando pagos...</div>
+  }
+
+  <!-- PAGINACIÓN -->
+  <div class="pagination">
+    <button class="page-btn">« Anterior</button>
+    <button class="page-number active">1</button>
+    <button class="page-number">2</button>
+    <button class="page-number">3</button>
+    <button class="page-btn">Siguiente »</button>
+  </div>
+</div>
+
+<!-- MODAL COMPROBANTE AMPLIADO -->
+@if (comprobanteAmpliado()) {
+  <div class="modal-backdrop" (click)="cerrarComprobante()">
+    <div class="modal-comprobante" (click)="$event.stopPropagation()">
+      <button class="btn-close" (click)="cerrarComprobante()">✕</button>
+      <img [src]="comprobanteAmpliado()" alt="Comprobante ampliado" class="comprobante-grande">
+    </div>
+  </div>
+}

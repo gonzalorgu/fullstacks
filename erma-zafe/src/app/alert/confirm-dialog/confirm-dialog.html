@@ -1,0 +1,53 @@
+@if (confirmService.dialog(); as dialog) {
+  <div class="confirm-overlay" (click)="close()" [@fadeIn]>
+    <div class="confirm-modal" [@scaleIn] (click)="$event.stopPropagation()">
+
+      <!-- Icono -->
+      <div class="confirm-icon" [class]="'icon-' + dialog.type">
+        @switch (dialog.type) {
+          @case ('danger') {
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+          }
+          @case ('warning') {
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3.05h16.94a2 2 0 0 0 1.71-3.05l-8.47-14.14a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          }
+          @default {
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+          }
+        }
+      </div>
+
+      <!-- Contenido -->
+      <h2 class="confirm-title">{{ dialog.title }}</h2>
+      <p class="confirm-message">{{ dialog.message }}</p>
+
+      <!-- Botones SOLO se muestran si hay texto -->
+      @if (dialog.confirmText || dialog.cancelText) {
+        <div class="confirm-actions">
+          @if (dialog.cancelText) {
+            <button class="btn-cancel" (click)="cancel()">
+              {{ dialog.cancelText }}
+            </button>
+          }
+          @if (dialog.confirmText) {
+            <button class="btn-confirm" [class]="'btn-' + dialog.type" (click)="confirm()">
+              {{ dialog.confirmText }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+}

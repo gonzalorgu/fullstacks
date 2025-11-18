@@ -1,0 +1,89 @@
+<div class="maintenance-container">
+  <div class="header">
+    <h2>Gestión de Mantenimiento</h2>
+    <button class="btn-primary" (click)="showModal.set(true)">+ Nuevo</button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Cargando mantenimientos...</div>
+  }
+
+  @if (error()) {
+    <div class="error-message">{{ error() }}</div>
+  }
+
+  <div class="maintenance-grid">
+    @for (maintenance of maintenanceList(); track maintenance.id) {
+      <div class="maintenance-card">
+        <div class="card-image">
+          @if (maintenance.foto && maintenance.foto !== '' && maintenance.foto !== 'null') {
+            <img [src]="getImageUrl(maintenance.foto)" [alt]="maintenance.dressNombre" (error)="onImageError($event)">
+          } @else {
+            <div class="no-image-placeholder">
+              <span></span>
+              <p>Sin imagen</p>
+            </div>
+          }
+        </div>
+
+        <div class="card-content">
+          <h3>{{ maintenance.dressNombre || 'Sin nombre' }}</h3>
+
+          <div class="badges">
+            <span class="badge" [ngClass]="getTipoBadgeClass(maintenance.tipo)">
+              {{ maintenance.tipo }}
+            </span>
+            <span class="badge" [ngClass]="getEstadoBadgeClass(maintenance.estado)">
+              {{ maintenance.estado }}
+            </span>
+          </div>
+
+          @if (maintenance.costo) {
+            <p class="cost"><strong>Costo:</strong> S/ {{ maintenance.costo }}</p>
+          }
+
+          @if (maintenance.fechaInicio) {
+            <p><strong>Inicio:</strong> {{ maintenance.fechaInicio | date:'dd/MM/yyyy' }}</p>
+          }
+
+          @if (maintenance.fechaFin) {
+            <p><strong>Fin:</strong> {{ maintenance.fechaFin | date:'dd/MM/yyyy' }}</p>
+          }
+
+          <div class="card-actions">
+            <select
+              [value]="maintenance.estado"
+              (change)="updateStatus(maintenance.id, $any($event.target).value)"
+              class="status-select">
+              <option value="pendiente">Pendiente</option>
+              <option value="en_proceso">En Proceso</option>
+              <option value="completado">Completado</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+
+            <button
+              class="btn-danger"
+              (click)="deleteMaintenance(maintenance.id)">
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (maintenanceList().length === 0 && !loading()) {
+    <div class="empty-state">
+      <p>No hay registros de mantenimiento</p>
+      <button class="btn-primary" (click)="showModal.set(true)">Crear primero</button>
+    </div>
+  }
+</div>
+
+<!-- MODAL SOLO CON @if -->
+@if (showModal()) {
+  <div class="modal-backdrop" (click)="cerrarModal()"></div>
+  <div class="modal-panel">
+    <app-maintenance-create (close)="cerrarModal(); loadMaintenance()"></app-maintenance-create>
+  </div>
+}

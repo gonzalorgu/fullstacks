@@ -1,0 +1,240 @@
+<div class="reportes-container">
+  <!-- HEADER CON ACCIONES -->
+  <div class="page-header">
+    <h1> Dashboard de Reportes</h1>
+    <div class="header-actions">
+      <button (click)="imprimirReporte()" class="btn btn-primary">
+        <span class="btn-icon"><img src="assets/icons/print-svgrepo-com.svg" alt="chat"></span>
+        <span>Imprimir</span>
+      </button>
+      <button (click)="descargarReporteHTML()" class="btn btn-secondary">
+        <span class="btn-icon"><img src="assets/icons/download-minimalistic-svgrepo-com.svg" alt="chat"></span>
+        <span>Descargar</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filters-section">
+    <div class="date-range">
+      <div class="input-group">
+        <label><img src="assets/icons/calendar-add-svgrepo-com.svg" alt="chat"> Desde</label>
+        <input
+          type="date"
+          class="date-input"
+          [(ngModel)]="startDate"
+          (change)="cargarDatos()">
+      </div>
+      <div class="input-group">
+        <label><img src="assets/icons/calendar-add-svgrepo-com.svg" alt="chat"> Hasta</label>
+        <input
+          type="date"
+          class="date-input"
+          [(ngModel)]="endDate"
+          (change)="cargarDatos()">
+      </div>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Cargando reportes...</p>
+    </div>
+  } @else {
+    <!-- KPIs -->
+    <div class="kpis-grid">
+      @if (dashboard()) {
+        <div class="kpi-card income">
+          <div class="kpi-icon"><img src="assets/icons/money-bag-svgrepo-com.svg" alt="chat"></div>
+          <div class="kpi-content">
+            <p class="kpi-label">Ingresos Totales</p>
+            <p class="kpi-value">{{ formatearMoneda(dashboard()!.kpis.totalIncome) }}</p>
+          </div>
+        </div>
+
+        <div class="kpi-card payments">
+          <div class="kpi-icon"><img src="assets/icons/applepay-svgrepo-com.svg" alt="chat"></div>
+          <div class="kpi-content">
+            <p class="kpi-label">Pagos Procesados</p>
+            <p class="kpi-value">{{ dashboard()!.kpis.totalPayments }}</p>
+          </div>
+        </div>
+
+        <div class="kpi-card pending">
+          <div class="kpi-icon"><img src="assets/icons/paypal-svgrepo-com.svg" alt="chat"></div>
+          <div class="kpi-content">
+            <p class="kpi-label">Pagos Pendientes</p>
+            <p class="kpi-value">{{ dashboard()!.kpis.pendingPayments }}</p>
+          </div>
+        </div>
+
+        <div class="kpi-card customers">
+          <div class="kpi-icon"><img src="assets/icons/users-svgrepo-com.svg" alt="chat"></div>
+          <div class="kpi-content">
+            <p class="kpi-label">Clientes Totales</p>
+            <p class="kpi-value">{{ dashboard()!.kpis.totalCustomers }}</p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- ✅ SECCIÓN DE ATRASOS ACTUALIZADA -->
+    <div class="section">
+      <h2> Reporte de Atrasos</h2>
+
+      <div class="late-summary-grid">
+        <div class="late-summary-card danger">
+          <div class="late-summary-icon"></div>
+          <p class="late-summary-label">Total Atrasos</p>
+          <p class="late-summary-value">{{ totalAtrasos() }}</p>
+        </div>
+
+        <div class="late-summary-card warning">
+          <div class="late-summary-icon"></div>
+          <p class="late-summary-label">Monto en Moras</p>
+          <p class="late-summary-value">{{ formatearMoneda(montoMoras()) }}</p>
+        </div>
+
+        <div class="late-summary-card info">
+          <div class="late-summary-icon"></div>
+          <p class="late-summary-label">Promedio Días</p>
+          <p class="late-summary-value">{{ promedioDias() }} días</p>
+        </div>
+      </div>
+
+      @if (alquileresRetrasados().length > 0) {
+        <div class="late-reservations-grid">
+          @for (r of alquileresRetrasados(); track r.id) {
+            <div class="late-reservation-card">
+              <div class="late-card-image">
+                @if (r.foto) {
+                  <img
+                    [src]="r.foto"
+                    [alt]="r.vestido || r.dressNombre"
+                    (error)="onImageError($event)">
+                } @else {
+                  <div class="no-image"></div>
+                }
+              </div>
+
+              <div class="late-card-content">
+                <div class="late-card-header">
+                  <span class="reservation-id">#{{ r.id }}</span>
+                  <span class="days-late-badge severe">
+                    {{ r.diasRetraso }} días
+                  </span>
+                </div>
+
+                <h4 class="dress-name">{{ r.vestido || r.dressNombre || 'N/A' }}</h4>
+
+                <div class="client-details">
+                  <p><strong>Cliente:</strong> {{ r.cliente || r.clienteNombre || 'N/A' }}</p>
+                  <p><strong>Talla:</strong> {{ r.talla || 'N/A' }} | <strong>Color:</strong> {{ r.color || 'N/A' }}</p>
+                </div>
+
+                <div class="dates">
+                  <p><strong>Inicio:</strong> {{ r.desde | date:'dd/MM/yyyy' }}</p>
+                  <p class="overdue-date"><strong>Fin (Vencido):</strong> {{ r.hasta | date:'dd/MM/yyyy' }}</p>
+                </div>
+
+                <div class="late-fee">
+                  <span>Mora acumulada:</span>
+                  <span class="fee-amount">{{ formatearMoneda(r.penalizacion || 0) }}</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="no-late-reservations">
+          <div class="empty-icon"></div>
+          <p>No hay reservas atrasadas</p>
+          <span>¡Todas las devoluciones están al día!</span>
+        </div>
+      }
+    </div>
+
+    <!-- MÉTODOS DE PAGO -->
+    <div class="section">
+      <h2>Métodos de Pago</h2>
+      @if (paymentMethods()) {
+        <div class="methods-grid">
+          @for (method of paymentMethods()!.methods; track method.method) {
+            <div class="method-card">
+              <div class="method-header">
+                <span class="method-name">{{ method.method }}</span>
+                <span class="method-count">{{ method.count }} trans.</span>
+              </div>
+              <div class="method-total">{{ formatearMoneda(method.total) }}</div>
+              <div class="method-bar">
+                <div class="method-fill" [style.width.%]="(method.total / (paymentMethods()!.methods[0]?.total || 1) * 100)"></div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- TOP CLIENTES -->
+    <div class="section">
+      <h2> Top Clientes</h2>
+      @if (topCustomers()) {
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Alquileres</th>
+                <th>Total Gastado</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (customer of topCustomers()!.topCustomers; track customer.email) {
+                <tr>
+                  <td>{{ customer.email }}</td>
+                  <td>{{ customer.name }}</td>
+                  <td class="text-center">{{ customer.rentals }}</td>
+                  <td class="text-right">{{ formatearMoneda(customer.totalSpent) }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+
+    <!-- RESUMEN -->
+    <div class="section">
+      <h2>Resumen General</h2>
+      @if (summary()) {
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="summary-icon"><img src="assets/icons/money-send-svgrepo-com.svg" alt="chat"></div>
+            <p class="summary-label">Ingresos Totales</p>
+            <p class="summary-value">{{ formatearMoneda(summary()!.metrics.totalRevenue) }}</p>
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-icon"><img src="assets/icons/ticket-sale-svgrepo-com.svg" alt="chat"></div>
+            <p class="summary-label">Ticket Promedio</p>
+            <p class="summary-value">{{ formatearMoneda(summary()!.metrics.averageTransactionValue) }}</p>
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-icon"><img src="assets/icons/success-check-win-done-mark-good-svgrepo-com.svg" alt="chat"></div>
+            <p class="summary-label">Tasa de Éxito</p>
+            <p class="summary-value">{{ formatearPorcentaje(summary()!.metrics.successRate) }}</p>
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-icon"><img src="assets/icons/sales-amount-svgrepo-com.svg" alt="chat"></div>
+            <p class="summary-label">Conversión</p>
+            <p class="summary-value">{{ formatearPorcentaje(summary()!.metrics.conversionMetrics.conversionRate) }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

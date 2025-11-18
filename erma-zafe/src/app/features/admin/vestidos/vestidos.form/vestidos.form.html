@@ -1,0 +1,189 @@
+<div class="vestido-form-container">
+  <div class="form-header">
+    <h3>{{ isEditMode ? 'Editar Vestido' : 'Agregar Nuevo Vestido' }}</h3>
+    <button class="close-btn" (click)="onCancel()" type="button">✕</button>
+  </div>
+
+  <form [formGroup]="vestidoForm" (ngSubmit)="onSubmit()">
+    <div class="form-body">
+      <div class="form-row two-cols">
+        <div class="form-group">
+          <label for="nombre">Nombre del Vestido</label>
+          <input
+            type="text"
+            id="nombre"
+            formControlName="nombre"
+            class="form-control"
+            placeholder="Nombre del Vestido">
+        </div>
+
+        <div class="form-group">
+          <label for="categoria">Categoría</label>
+          <select
+            id="categoria"
+            formControlName="categoria"
+            class="form-control">
+            <option value="">Seleccione una categoría</option>
+            @for (cat of categorias; track cat) {
+              <option [value]="cat">{{ cat }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea
+          id="descripcion"
+          formControlName="descripcion"
+          class="form-control"
+          rows="2"
+          placeholder="Descripción"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Tallas</label>
+        <div class="checkbox-row">
+          @for (t of tallas; track t) {
+            <label class="checkbox-item">
+              <input
+                type="checkbox"
+                [value]="t"
+                [checked]="tallasSeleccionadas.includes(t)"
+                (change)="onTallaChange($event, t)">
+              <span>{{ t }}</span>
+            </label>
+          }
+        </div>
+      </div>
+
+      <!-- PALETA DE COLORES COMPLETA -->
+      <div class="form-group color-group">
+        <label>Color <span class="required">*</span></label>
+
+        <div class="color-palette">
+          @for (color of getAllColors(); track color.value) {
+            <button
+              type="button"
+              class="color-circle"
+              [style.background-color]="color.value"
+              [class.selected]="vestidoForm.get('color')?.value === color.value"
+              (click)="selectColor(color.value)"
+              [title]="color.nombre"
+              [class.custom]="color.custom">
+              @if (vestidoForm.get('color')?.value === color.value) {
+                <span class="checkmark">✓</span>
+              }
+            </button>
+          }
+        </div>
+
+        <div class="color-preview-section">
+          <small>Color seleccionado: {{ vestidoForm.get('color')?.value }}</small>
+        </div>
+
+        @if (coloresPersonalizados.length < 3) {
+          <div class="custom-color-input">
+            <input
+              type="color"
+              [(ngModel)]="nuevoColorPersonalizado"
+              [ngModelOptions]="{ standalone: true }"
+              class="color-picker"
+              title="Selecciona un color personalizado">
+            <button
+              type="button"
+              (click)="addColorPersonalizado()"
+              class="btn-add-color"
+              [disabled]="!nuevoColorPersonalizado || nuevoColorPersonalizado === ''">
+              + Agregar Color ({{ coloresPersonalizados.length }}/3)
+            </button>
+          </div>
+        }
+
+        @if (coloresPersonalizados.length > 0) {
+          <div class="custom-colors-list">
+            <p class="custom-colors-title">Mis Colores ({{ coloresPersonalizados.length }}/3)</p>
+            @for (color of coloresPersonalizados; track color; let i = $index) {
+              <div class="custom-color-item">
+                <div class="custom-color-preview" [style.background-color]="color"></div>
+                <span class="custom-color-code">{{ color }}</span>
+                <button
+                  type="button"
+                  class="btn-remove-custom"
+                  (click)="removeColorPersonalizado(i)">
+                  ✕
+                </button>
+              </div>
+            }
+          </div>
+        }
+
+        <div class="color-display">
+          <span class="color-preview" [style.background-color]="vestidoForm.get('color')?.value || '#fff'"></span>
+          <span class="color-name">{{ getColorName(vestidoForm.get('color')?.value) }}</span>
+        </div>
+      </div>
+
+      <div class="form-row two-cols">
+        <div class="form-group">
+          <label for="precio">Precio Alquiler</label>
+          <input
+            type="number"
+            id="precio"
+            formControlName="precio"
+            class="form-control"
+            placeholder="150">
+        </div>
+
+        <!-- Quitar campo precioVenta -->
+
+      </div>
+
+      <div class="form-group">
+        <label for="cantidad">Cantidad en Stock</label>
+        <input
+          type="number"
+          id="cantidad"
+          formControlName="cantidad"
+          class="form-control"
+          min="0"
+          placeholder="1">
+      </div>
+
+      <div class="form-group upload-group">
+        <label>Subir Imagen</label>
+
+        <input
+          type="file"
+          #fileInput
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          style="display: none;">
+
+        <div class="upload-area" (click)="fileInput.click()">
+          @if (!imagenPreview) {
+            <i class="upload-icon"><img src="assets/icons/upload-svgrepo-com.svg" alt="chat"></i>
+            <p>Arrastrar y Soltar o<br><strong>Hacer Click para Subir</strong></p>
+          } @else {
+            <img [src]="imagenPreview" alt="Preview" class="image-preview">
+            <button
+              type="button"
+              class="btn-remove-image"
+              (click)="removeImage($event)">
+              ✕ Quitar Imagen
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <button type="button" (click)="onCancel()" class="btn btn-secondary">
+        Cancelar
+      </button>
+      <button type="submit" [disabled]="!vestidoForm.valid" class="btn btn-primary">
+        {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+      </button>
+    </div>
+  </form>
+</div>
