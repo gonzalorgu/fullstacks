@@ -14,9 +14,12 @@ async function bootstrap() {
     }),
   );
 
-  // ✨ CORS mejorado
+  // ✨ CORS para desarrollo y producción en Netlify
   app.enableCors({
-    origin: "http://localhost:4200",
+    origin: [
+      'http://localhost:4200',         // Desarrollo local Angular
+      'https://erma-zafes.netlify.app' // Tu dominio Netlify - cámbialo por el dominio real si Netlify asigna uno distinto
+    ],
     credentials: true, // Permite cookies/JWT
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
     allowedHeaders: "Content-Type, Accept, Authorization",
